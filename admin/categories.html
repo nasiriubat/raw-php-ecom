@@ -1,34 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categories</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="site-name">My Online Shop</div>
         <div class="nav-right">
-            <a href="profile.html"><button class="profile-btn">Profile</button></a>
-            <button class="logout-btn">Logout</button>
+            <a href="profile.html">
+                <img class="img profile-img" src="https://placehold.jp/150x150.png" alt="profile-img">
+            </a>
+            <a href="logout.html"><button class="btn logout-btn">Logout</button></a>
+
         </div>
     </nav>
     <div class="container">
         <div class="sidebar">
-            <h3>Dashboard</h3>
+            <h3>
+                <a href="index.html">Dashboard</a>
+            </h3>
             <ul>
+                <li><a href="profile.html">Profile</a></li>
                 <li><a href="customers.html">Customers</a></li>
-                <li class="active"><a href="categories.html">Categories</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="categories.html">Categories</a></li>
                 <li><a href="products.html">Products</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
         </div>
         <div class="content">
-            <h2>Categories</h2>
-            <p>List of categories will be displayed here.</p>
+            <div class="top-bar">
+                <h2>All Categories</h2>
+                <a href="" class="btn">Back</a>
+            </div>
+            <div class="main-content">
+                <div class="button-area">
+                    <a class="btn btn-create" href="/">Create Category</a>
+                </div>
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th width="5%">Sl.</th>
+                            <th width="75%">Category Name</th>
+                            <th width="20%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Electronics</td>
+                            <td class="action-btn">
+                                <a class="btn btn-view" href="/">View</a>
+                                <a class="btn btn-edit" href="/">Edit</a>
+                                <a class="btn btn-delete" href="/">Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Sports</td>
+                            <td class="action-btn">
+                                <a class="btn btn-view" href="/">View</a>
+                                <a class="btn btn-edit" href="/">Edit</a>
+                                <a class="btn btn-delete" href="/">Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Men's Clothings</td>
+                            <td class="action-btn">
+                                <a class="btn btn-view" href="/">View</a>
+                                <a class="btn btn-edit" href="/">Edit</a>
+                                <a class="btn btn-delete" href="/">Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Women's Clothing</td>
+                            <td class="action-btn">
+                                <a class="btn btn-view" href="/">View</a>
+                                <a class="btn btn-edit" href="/">Edit</a>
+                                <a class="btn btn-delete" href="/">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script src="./assets/js/scripts.js"></script>
 </body>
+
 </html>
