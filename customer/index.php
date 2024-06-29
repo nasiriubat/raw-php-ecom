@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="./assets/css/styles.css">
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" href="../admin/assets/css/styles.css">
 </head>
 
 <body>
     <nav class="navbar">
-        <div class="site-name">My Online Shop</div>
+        <div class="site-name">
+            <a href="../index.php">E-Shop</a>
+        </div>
         <div class="nav-right">
             <a href="profile.html">
-                <img class="img profile-img" src="https://placehold.jp/150x150.png" alt="profile-img">
+                <img class="img profile-img" src="../admin/assets/images/margot.jpg" alt="profile-img">
             </a>
-            <a href="logout.html"><button class="btn logout-btn">Logout</button></a>
+            <a href="../logout.php"><button class="btn logout-btn">Logout</button></a>
 
         </div>
     </nav>
@@ -26,37 +28,18 @@
             </h3>
             <ul>
                 <li><a href="profile.html">Profile</a></li>
-                <li><a href="customers.html">Customers</a></li>
+
                 <li><a href="orders.html">Orders</a></li>
-                <li><a href="categories.html">Categories</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="settings.html">Settings</a></li>
+
             </ul>
         </div>
         <div class="content">
-            <h2>Welcome to the Admin Dashboard</h2>
+            <h2>Welcome to the Customer Dashboard</h2>
             <div class="dashboard">
-                <div class="boxes">
-                    <div class="item total-orders">
-                        <p>02</p>
-                        <h3>Total Orders</h3>
-                    </div>
-                    <div class="item pending-orders">
-                        <p>02</p>
-                        <h3>Pending Orders</h3>
-                    </div>
-                    <div class="item completed-orders">
-                        <p>02</p>
-                        <h3>Completed Orders</h3>
-                    </div>
-                    <div class="item total-customers">
-                        <p>02</p>
-                        <h3>Total Customers</h3>
-                    </div>
-                </div>
                 <hr>
                 <div class="main-content">
-                    <h3 class="text-center">Pending Orders</h3>
+                    <h3 class="text-center bg-color">Orders</h3>
+
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -101,13 +84,15 @@
                                 <td>Pending</td>
                                 <td><a class="btn btn-view" href="/">View</a></td>
                             </tr>
+
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    <script src="./assets/js/scripts.js"></script>
+
 </body>
 
 </html>

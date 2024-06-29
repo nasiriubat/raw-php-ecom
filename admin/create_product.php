@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 
@@ -33,43 +33,47 @@
                 <li><a href="settings.html">Settings</a></li>
             </ul>
         </div>
-        <div class="content">
+        <div class="content  profile">
             <div class="top-bar">
-                <h2>Site Settings</h2>
-                <a href="" class="btn">Back</a>
+                <h2>Profile</h2>
+                <a href="" class="btn back">Back</a>
             </div>
             <form class="custom-form" action="profile_update.php" method="post" enctype="multipart/form-data">
                 <div class="form-div">
                     <div class="form-group">
-                        <label for="site_name">Site Name:</label>
-                        <input type="text" id="site_name" name="site_name" required>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="site_email">Contact Email:</label>
-                        <input type="email" id="site_email" name="site_email" required>
+                        <label for="price">Price:</label>
+                        <input type="number" id="price" name="price" required>
                     </div>
                     <div class="form-group">
-                        <label for="site_phone">Phone:</label>
-                        <input type="text" id="site_phone" name="site_phone" required>
+                        <label for="stock">Stock:</label>
+                        <input type="number" id="stock" name="stock" required>
                     </div>
                     <div class="form-group">
-                        <label for="site_address">Address:</label>
-                        <input type="text" id="site_address" name="site_address" required>
+                        <label for="stock">Category:</label>
+                        <select name="categoryId" id="categoryId" required>
+                            <option value="category1" selected>category1</option>
+                            <option value="category2">category2</option>
+                            <option value="category3">category3</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="currency_symbol">Currency Symbol:</label>
-                        <input type="text" id="currency_symbol" name="currency_symbol" required>
+                        <label for="description">Description:</label>
+                        <input type="text" id="description" name="description" required>
                     </div>
                     <div class="form-group">
-                        <label for="site_logo">Site Logo:</label>
-                        <input type="file" id="site_logo" name="site_logo" accept="image/*">
+                        <label for="image">Image:</label>
+                        <input type="file" id="image" name="image" accept="image/*">
                     </div>
                 </div>
-                <button type="submit">Update </button>
+                <button type="submit">Update</button>
             </form>
         </div>
     </div>
-    
+
 </body>
 
 </html>

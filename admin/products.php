@@ -11,9 +11,9 @@
         <div class="site-name">My Online Shop</div>
         <div class="nav-right">
             <a href="profile.html">
-                <img class="img profile-img" src="https://placehold.jp/150x150.png" alt="profile-img">
+                <img class="img profile-img" src="./assets/images/margot.jpg" alt="profile-img">
             </a>
-            <a href="logout.html"><button class="btn logout-btn">Logout</button></a>
+            <a href="../logout.php"><button class="btn logout-btn">Logout</button></a>
 
         </div>
     </nav>
@@ -26,7 +26,7 @@
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="customers.html">Customers</a></li>
                 <li><a href="orders.html">Orders</a></li>
-                <li><a href="categories.html">Categories</a></li>
+                <li><a href="categories.php">Categories</a></li>
                 <li><a href="products.html">Products</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
@@ -38,7 +38,7 @@
             </div>
             <div class="main-content">
                 <div class="button-area">
-                    <a class="btn btn-create" href="/">Create Product</a>
+                    <a class="btn btn-create" href="./create_product.php">Create Product</a>
                 </div>
                 <table class="custom-table">
                     <thead>
@@ -90,6 +90,6 @@
                 </table>
             </div>        </div>
     </div>
-    <script src="./assets/js/scripts.js"></script>
+    
 </body>
 </html>
