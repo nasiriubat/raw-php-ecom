@@ -66,10 +66,13 @@ if ($row) {
 
 function deleteById($conn, $table, $id)
 {
-    // Sanitize input
     $table = mysqli_real_escape_string($conn, $table);
     $id = (int) $id;
-
+    $currentProduct = getById($conn, 'product', $id);
+    $currentImagePath = $currentProduct['image'];
+    if (file_exists($currentImagePath)) {
+        unlink($currentImagePath);
+    }
     $sql = "DELETE FROM `$table` WHERE `id` = $id";
     return $conn->query($sql) === TRUE;
 }
@@ -180,12 +183,12 @@ function login($conn, $email, $password)
         if ($hashed_password === $user['password']) {
             unset($user['password']);
             $_SESSION['user'] = $user;
-            return true;
+            return $user;
         } else {
-            return false;
+            return [];
         }
     } else {
-        return false;
+        return [];
     }
 }
 
@@ -240,4 +243,89 @@ function getCurrentUser()
     } else {
         return null;
     }
+}
+
+function saveImage($folderName, $file)
+{
+    $folderName = '../uploads/' . $folderName;
+    if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $file['tmp_name'];
+        $fileName = $file['name'];
+        $fileSize = $file['size'];
+        $fileType = $file['type'];
+        $fileNameCmps = explode(".", $fileName);
+        $fileExtension = strtolower(end($fileNameCmps));
+
+        $allowedfileExtensions = array('jpg', 'jpeg', 'png', 'gif');
+
+        if (in_array($fileExtension, $allowedfileExtensions)) {
+            $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+
+            if (!is_dir($folderName)) {
+                mkdir($folderName, 0755, true);
+            }
+
+            // The path to where the file will be moved
+            $dest_path = $folderName . DIRECTORY_SEPARATOR . $newFileName;
+
+            // Move the file to the specified folder
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                // Return the file path
+                return $dest_path;
+            } else {
+                // Handle error during file upload
+                return false;
+            }
+        } else {
+            // Handle invalid file type
+            return false;
+        }
+    } else {
+        // Handle error in file upload
+        return false;
+    }
+}
+
+function productsByCategory($conn, $catId)
+{
+    $catId = mysqli_real_escape_string($conn, $catId);
+
+    $sql = "SELECT * FROM product WHERE categoryId = $catId";
+    $result = $conn->query($sql);
+
+    $products = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+
+    return $products;
+}
+function productsBySearch($conn, $searchTerm)
+{
+    $searchTerm = mysqli_real_escape_string($conn, $searchTerm);
+
+    $sql = "SELECT * FROM product WHERE name LIKE '%$searchTerm%'";
+    $result = $conn->query($sql);
+
+    $products = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+
+    return $products;
+}
+
+function showText($text, $max_length = 30)
+{
+    if (strlen($text) > $max_length) {
+        $shortenedText = substr($text, 0, $max_length) . '...';
+    } else {
+        $shortenedText = $text;
+    }
+
+    return $shortenedText;
 }

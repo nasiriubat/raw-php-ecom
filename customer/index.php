@@ -24,22 +24,23 @@
     <div class="container">
         <div class="sidebar">
             <h3>
-                <a href="index.html">Dashboard</a>
+                <a href="index.php">Dashboard</a>
             </h3>
             <ul>
-                <li><a href="profile.html">Profile</a></li>
+                <li><a href="profile.php">Profile</a></li>
 
-                <li><a href="orders.html">Orders</a></li>
+                <li><a href="orders.php">Orders</a></li>
 
             </ul>
         </div>
         <div class="content">
-            <h2>Welcome to the Customer Dashboard</h2>
+            <div class="top-bar">
+                <h2>Dashborad</h2>
+                <a href="" class="btn back">Back</a>
+            </div>
             <div class="dashboard">
                 <hr>
                 <div class="main-content">
-                    <h3 class="text-center bg-color">Orders</h3>
-
                     <table class="custom-table">
                         <thead>
                             <tr>

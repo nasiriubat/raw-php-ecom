@@ -12,42 +12,47 @@ if (!isAdmin()) {
     header('Location: index.php');
 }
 
-$categories = getAll($conn, 'category', 'ASC');
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $product_id = intval($_GET['id']);
+    $product = getById($conn, 'product', $product_id);
+    $categories = getAll($conn, 'category', 'ASC');
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
+    $currentProduct = getById($conn, 'product', $id);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $folderName = 'products';
-    $file = $_FILES['image'];
+    $currentImagePath = '../uploads/'.$currentProduct['image'];
+    $imagePath = '';
 
-    $imagePath = saveImage($folderName, $file);
-
-    if ($imagePath) {
-        $data = [
-            'name' => $_POST['name'],
-            'price' => $_POST['price'],
-            'stock' => $_POST['stock'],
-            'categoryId' => $_POST['categoryId'],
-            'description' => $_POST['description'],
-            'image' => $imagePath,
-        ];
-        $newData = createData($conn, 'product', $data);
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        if (file_exists($currentImagePath)) {
+            unlink($currentImagePath);
+        }
+        $imagePath = saveImage('products', $_FILES['image']);
     } else {
-        echo "<script>alert('Failed to save the image. Please try again.');</script>";
+        $imagePath = $currentImagePath;
+    }
+    $inputData = [
+        'name' => $_POST['name'],
+        'price' => $_POST['price'],
+        'stock' => $_POST['stock'],
+        'description' => $_POST['description'],
+        'categoryId' => $_POST['categoryId'],
+        'image' => $imagePath,
+    ];
+
+    $data = updateById($conn, 'product', $id, $inputData);
+    if ($data) {
+        echo "<script>alert('Update successful!');</script>";
+        header('Location: products.php');
+    } else {
+        echo "<script>alert('Update Failed, please try again.');</script>";
         header('Location: products.php');
     }
-    if ($newData) {
-        echo "<script>alert('Insert successful!');</script>";
-        header('Location: products.php');
-    } else {
-        echo "<script>alert('Insert Failed, please try again.');</script>";
-        header('Location: products.php');
-    }
+} else {
+    header('Location: products.php');
 }
+
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Product</title>
+    <title>Edit Product</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 
@@ -88,23 +93,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="content  profile">
             <div class="top-bar">
-                <h2>Create Product</h2>
+                <h2>Edit Product</h2>
                 <a href="" class="btn back">Back</a>
             </div>
-            <form class="custom-form" action="create_product.php" method="post" enctype="multipart/form-data">
+            <form class="custom-form" action="edit_product.php" method="post" enctype="multipart/form-data">
                 <div class="form-div">
+                    <input type="hidden" name="id" value="<?= $product['id'] ?>">
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" value="<?= $product['name'] ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="price">Price:</label>
-                        <input type="number" id="price" name="price" required>
+                        <input type="number" name="price" id="price" value="<?= $product['price'] ?>" required><br>
                     </div>
                     <div class="form-group">
                         <label for="stock">Stock:</label>
-                        <input type="number" id="stock" name="stock" required>
+                        <input type="number" name="stock" id="stock" value="<?= $product['stock'] ?>" required><br>
                     </div>
+
                     <div class="form-group">
                         <label for="stock">Category:</label>
                         <select name="categoryId" id="categoryId" required>
@@ -112,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             if ($categories) {
                                 foreach ($categories as $category) {
                             ?>
-                                    <option value=<?= $category['id'] ?>><?= $category['name'] ?></option>
+                                    <option <?= $category['id'] == $product['categoryId'] ? 'selected' : '' ?> value=<?= $category['id'] ?>><?= $category['name'] ?></option>
                             <?php
                                 }
                             }
@@ -121,14 +128,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <input type="text" id="description" name="description" required>
+                        <input type="text" id="description" name="description" value="<?= $product['description'] ?>" required>
                     </div>
+
                     <div class="form-group">
                         <label for="image">Image:</label>
-                        <input type="file" id="image" name="image" accept="image/*" required>
+                        <input type="file" id="image" name="image" accept="image/*">
                     </div>
                 </div>
-                <button type="submit">create</button>
+                <button type="submit">Update</button>
             </form>
         </div>
     </div>

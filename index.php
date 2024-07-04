@@ -8,7 +8,24 @@
     <link rel="stylesheet" href="./assets/style.css"> <!-- Assuming you have a separate CSS file -->
 </head>
 <?php
-include './config/helper_function.php'
+include './config/helper_function.php';
+include './config/db_connect.php';
+$categories = getAll($conn, 'category');
+$products = getAll($conn, 'product');
+$activeCatId = 0;
+$searchText = '';
+
+//search by category
+if (isset($_GET['categoryId'])) {
+    $activeCatId = $_GET['categoryId'];
+    $products = productsByCategory($conn, $_GET['categoryId']);
+}
+
+//search by input
+if (isset($_GET['search'])) {
+    $searchText = $_GET['search'];
+    $products = productsBySearch($conn, $_GET['search']);
+}
 ?>
 
 <body>
@@ -18,7 +35,14 @@ include './config/helper_function.php'
             <div class="navbar-logo">
                 <a href="index.php">Eshop</a>
             </div>
+            <div class="search-bar">
+                <form action="index.php">
+                    <input type="text" value="<?= $searchText ?>" name="search" placeholder="Search...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
             <div class="navbar-links">
+
                 <a href="cart.php">Cart</a>
                 <?php
                 if (isLoggedIn()) {
@@ -41,87 +65,37 @@ include './config/helper_function.php'
             <!-- Sidebar with Category List -->
             <div class="sidebar">
                 <ul>
-                    <li><a href="categoryProduct.php?category=electronics">Electronics</a></li>
-                    <li><a href="categoryProduct.php?category=clothing">Clothing</a></li>
-                    <li><a href="categoryProduct.php?category=books">Books</a></li>
+                    <?php if ($categories) { ?>
+                        <li><a href="index.php" class="<?= $activeCatId == 0 ? 'active' : '' ?>">All</a></li>
+                        <?php foreach ($categories as $category) {
+
+                        ?>
+                            <li><a class="<?= $activeCatId == $category['id'] ? 'active' : '' ?>" href="index.php?categoryId=<?= $category['id'] ?>"><?= showText($category['name'],20) ?></a></li>
+                    <?php }
+                    } ?>
                     <!-- Add more categories dynamically -->
                 </ul>
             </div>
             <!-- Product List -->
             <div class="product-list">
-                <!-- Example product cards (replace with dynamic PHP fetching from database) -->
-                <div class="product-card">
-                    <a href="productDetails.php?id=1">
-                        <img src="./assets/images/product.png" alt="Product 1">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$99.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="product-card">
-                    <a href="productDetails.php?id=2">
-                        <img src="./assets/images/product.png" alt="Product 2">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$49.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="product-card">
-                    <a href="productDetails.php?id=3">
-                        <img src="./assets/images/product.png" alt="Product 3">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$29.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="product-card">
-                    <a href="productDetails.php?id=4">
-                        <img src="./assets/images/product.png" alt="Product 4">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$79.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="product-card">
-                    <a href="productDetails.php?id=1">
-                        <img src="./assets/images/product.png" alt="Product 1">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$99.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div><div class="product-card">
-                    <a href="productDetails.php?id=1">
-                        <img src="./assets/images/product.png" alt="Product 1">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$99.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="product-card">
-                    <a href="productDetails.php?id=2">
-                        <img src="./assets/images/product.png" alt="Product 2">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$49.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="product-card">
-                    <a href="productDetails.php?id=3">
-                        <img src="./assets/images/product.png" alt="Product 3">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$29.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <div class="product-card">
-                    <a href="productDetails.php?id=4">
-                        <img src="./assets/images/product.png" alt="Product 4">
-                        <h4>Product Name</h4>
-                    </a>
-                    <p class="price">$79.99</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-                <!-- Add more product cards dynamically -->
+                <?php if ($products) {
+                    foreach ($products as $product) { ?>
+                        <div class="product-card">
+                            <a href="productDetails.php?id=1">
+                                <img src="./uploads/<?= $product['image'] ?>" alt="<?= substr($product['name'], 0, 30) ?>">
+                                <h4><?= showText($product['name']) ?></h4>
+                            </a>
+                            <p class="price">BDT <?= $product['price'] ?></p>
+                            <a href="./add_to_cart.php?id=<?= $product['id'] ?>" class="add-to-cart">Add to Cart</a>
+                        </div>
+                    <?php }
+                } else { ?>
+                    <div class="not-found-div">
+                        <img src="./assets/images/product.png" alt="">
+                        <h3>Opps ! No Items found</h3>
+                    </div>
+                <?php } ?>
+
             </div>
         </section>
     </div>

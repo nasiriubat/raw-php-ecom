@@ -10,8 +10,9 @@
 
 <body>
     <nav class="navbar">
-        <div class="site-name">My Online Shop</div>
-        <div class="nav-right">
+<div class="site-name">
+        <a href="../index.php">E-Shop</a>
+        </div>        <div class="nav-right">
             <a href="profile.html">
                 <img class="img profile-img" src="./assets/images/margot.jpg" alt="profile-img">
             </a>
