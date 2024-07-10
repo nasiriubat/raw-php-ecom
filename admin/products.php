@@ -30,14 +30,14 @@ if (isset($_GET['id'])) {
 }
 
 $products = getAll($conn, 'product');
-$categories = getAll($conn, 'category', 'ASC');
-
+$subcategories = getAll($conn, 'sub_category', 'ASC');
 $catNames = [];
-if ($categories) {
-    foreach ($categories as $category) {
-        $catNames[$category['id']] = $category['name'];
+if ($subcategories) {
+    foreach ($subcategories as $item) {
+        $catNames[$item['id']] = $item['name'];
     }
 }
+
 
 ?>
 
@@ -74,6 +74,8 @@ if ($categories) {
                 <li><a href="customers.html">Customers</a></li>
                 <li><a href="orders.html">Orders</a></li>
                 <li><a href="categories.php">Categories</a></li>
+                <li><a href="sub_category.php">Sub Categories</a></li>
+
                 <li><a href="products.php">Products</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
@@ -92,7 +94,7 @@ if ($categories) {
                         <tr>
                             <th width="5%">Sl.</th>
                             <th width="20%">Name</th>
-                            <th width="20%">Category</th>
+                            <th width="20%">Sub Category</th>
                             <th width="20%">Price</th>
                             <th width="15%">Quantity</th>
                             <th width="20%">Action</th>
@@ -106,7 +108,7 @@ if ($categories) {
                                 <tr>
                                     <td><?= $key + 1 ?></td>
                                     <td><?= $product['name'] ?></td>
-                                    <td><?= $catNames[$product['categoryId']] ?? '' ?></td>
+                                    <td><?= $catNames[$product['sub_categoryId']] ?? '' ?></td>
                                     <td><b>BDT</b> <?= $product['price'] ?></td>
                                     <td><?= $product['stock'] ?></td>
                                     <td class="action-btn">

@@ -30,7 +30,8 @@
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="customers.html">Customers</a></li>
                 <li><a href="orders.html">Orders</a></li>
-                <li><a href="categories.php">Categories</a></li>
+                <li><a href="categories.php">Categories</a></li>                <li><a href="sub_category.php">Sub Categories</a></li>
+
                 <li><a href="products.php">Products</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>

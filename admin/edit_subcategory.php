@@ -13,43 +13,29 @@ if (!isAdmin()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $product_id = intval($_GET['id']);
-    $product = getById($conn, 'product', $product_id);
-    $subcategories = getAll($conn, 'sub_category', 'ASC');
+
+    $subcategory_id = intval($_GET['id']);
+    $subcategory = getById($conn, 'sub_category', $subcategory_id);
+    $categories = getAll($conn, 'category', 'ASC');
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $id = $_POST['id'];
-    $currentProduct = getById($conn, 'product', $id);
-
-    $currentImagePath = '../uploads/' . $currentProduct['image'];
-    $imagePath = '';
-
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        if (file_exists($currentImagePath)) {
-            unlink($currentImagePath);
-        }
-        $imagePath = saveImage('products', $_FILES['image']);
-    } else {
-        $imagePath = $currentImagePath;
-    }
     $inputData = [
         'name' => $_POST['name'],
-        'price' => $_POST['price'],
-        'stock' => $_POST['stock'],
-        'description' => $_POST['description'],
-        'sub_categoryId' => $_POST['sub_categoryId'],
-        'image' => $imagePath,
+        'parent_id' => $_POST['parent_id'],
+
     ];
 
-    $data = updateById($conn, 'product', $id, $inputData);
+    $data = updateById($conn, 'sub_category', $id, $inputData);
     if ($data) {
         echo "<script>alert('Update successful!');</script>";
-        header('Location: products.php');
+        header('Location: sub_category.php');
     } else {
         echo "<script>alert('Update Failed, please try again.');</script>";
-        header('Location: products.php');
+        header('Location: sub_category.php');
     }
 } else {
-    header('Location: products.php');
+    header('Location: sub_category.php');
 }
 
 ?>
@@ -60,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product</title>
+    <title>Edit Sub Category</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 
@@ -94,47 +80,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         </div>
         <div class="content  profile">
             <div class="top-bar">
-                <h2>Edit Product</h2>
+                <h2>Edit Sub Category</h2>
                 <a href="" class="btn back">Back</a>
             </div>
-            <form class="custom-form" action="edit_product.php" method="post" enctype="multipart/form-data">
+            <form class="custom-form" action="edit_subcategory.php" method="post" enctype="multipart/form-data">
                 <div class="form-div">
-                    <input type="hidden" name="id" value="<?= $product['id'] ?>">
+                    <input type="hidden" name="id" value="<?= $subcategory['id'] ?>">
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" value="<?= $product['name'] ?>" required>
+                        <input type="text" id="name" name="name" value="<?= $subcategory['name'] ?>" required>
                     </div>
-                    <div class="form-group">
-                        <label for="price">Price:</label>
-                        <input type="number" name="price" id="price" value="<?= $product['price'] ?>" required><br>
-                    </div>
-                    <div class="form-group">
-                        <label for="stock">Stock:</label>
-                        <input type="number" name="stock" id="stock" value="<?= $product['stock'] ?>" required><br>
-                    </div>
-
                     <div class="form-group">
                         <label for="stock">Category:</label>
-                        <select name="sub_categoryId" id="sub_categoryId" required>
+                        <select name="parent_id" id="parent_id" required>
                             <?php
-                            if ($subcategories) {
-                                foreach ($subcategories as $item) {
+                            if ($categories) {
+                                foreach ($categories as $category) {
                             ?>
-                                    <option <?= $item['id'] == $product['sub_categoryId'] ? 'selected' : '' ?> value=<?= $item['id'] ?>><?= $item['name'] ?></option>
+                                    <option <?= $category['id'] == $subcategory['parent_id'] ? 'selected' : '' ?> value=<?= $category['id'] ?>><?= $category['name'] ?></option>
                             <?php
                                 }
                             }
                             ?>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <input type="text" id="description" name="description" value="<?= $product['description'] ?>" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="image">Image:</label>
-                        <input type="file" id="image" name="image" accept="image/*">
                     </div>
                 </div>
                 <button type="submit">Update</button>

@@ -1,4 +1,6 @@
 <?php
+
+
 include '../config/db_connect.php';
 include '../config/helper_function.php';
 
@@ -12,24 +14,29 @@ if (!isAdmin()) {
     header('Location: index.php');
 }
 
-$categories = getAll($conn, 'category', 'ASC');
-
 if (isset($_GET['id'])) {
-    $category_id = intval($_GET['id']);
-
-    $deleted = deleteById($conn, 'category', $category_id);
+    $product_id = intval($_GET['id']);
+    $deleted = deleteById($conn, 'sub_category', $product_id);
 
     if ($deleted) {
-        echo "<script>alert('Category deleted successfully!');</script>";
+        echo "<script>alert('Item deleted successfully!');</script>";
     } else {
-        echo "<script>alert('Failed to delete category. Please try again.');</script>";
+        echo "<script>alert('Failed to delete item. Please try again.');</script>";
     }
-    header('Location: categories.php');
+    header('Location: sub_category.php');
+}
+
+$sub_categories = getAll($conn, 'sub_category');
+$categories = getAll($conn, 'category', 'ASC');
+
+$catNames = [];
+if ($categories) {
+    foreach ($categories as $category) {
+        $catNames[$category['id']] = $category['name'];
+    }
 }
 
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +44,7 @@ if (isset($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories</title>
+    <title>Products</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 
@@ -71,36 +78,44 @@ if (isset($_GET['id'])) {
         </div>
         <div class="content">
             <div class="top-bar">
-                <h2>All Categories</h2>
+                <h2>Sub Categories</h2>
                 <a href="" class="btn">Back</a>
             </div>
             <div class="main-content">
                 <div class="button-area">
-                    <a class="btn btn-create" href="./create_category.php">Create Category</a>
+                    <a class="btn btn-create" href="./create_subcategory.php">Create Sub Category</a>
                 </div>
-                <?php if ($categories) { ?>
+                <?php if ($sub_categories) { ?>
                     <table class="custom-table">
                         <thead>
                             <tr>
                                 <th width="5%">Sl.</th>
-                                <th width="75%">Category Name</th>
+                                <th width="20%">Name</th>
+                                <th width="20%">Parent Category</th>
                                 <th width="20%">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($categories as $category) { ?>
-                                <tr>
-                                    <td><?= $category['id'] ?></td>
-                                    <td><?= $category['name'] ?></td>
-                                    <td class="action-btn">
-                                        <a class="btn btn-edit" href="edit_category.php?id=<?= $category['id'] ?>">Edit</a>
-                                        <a class="btn btn-delete" href="categories.php?id=<?= $category['id'] ?>">Delete</a>
-                                    </td>
-                                </tr>
                             <?php
+                            if ($sub_categories) {
+                                foreach ($sub_categories as $key => $item) {
+                            ?>
+                                    <tr>
+                                        <td><?= $key + 1 ?></td>
+                                        <td><?= $item['name'] ?></td>
+                                        <td><?= $catNames[$item['parent_id']] ?? '' ?></td>
+                                        <td class="action-btn">
+                                            <a class="btn btn-edit" href="./edit_subcategory.php?id=<?= $item['id'] ?>">Edit</a>
+                                            <a class="btn btn-delete" href="./sub_category.php?id=<?= $item['id'] ?>">Delete</a>
+                                        </td>
+                                    </tr>
+
+                            <?php
+                                }
                             }
                             ?>
                         </tbody>
+
                     </table>
                 <?php } else { ?>
                     <div class="no-data-available">
@@ -111,7 +126,7 @@ if (isset($_GET['id'])) {
             </div>
         </div>
     </div>
-    <script src="./assets/js/scripts.js"></script>
+
 </body>
 
 </html>

@@ -290,7 +290,7 @@ function productsByCategory($conn, $catId)
 {
     $catId = mysqli_real_escape_string($conn, $catId);
 
-    $sql = "SELECT * FROM product WHERE categoryId = $catId";
+    $sql = "SELECT * FROM product WHERE sub_categoryId = $catId";
     $result = $conn->query($sql);
 
     $products = [];
@@ -328,4 +328,29 @@ function showText($text, $max_length = 30)
     }
 
     return $shortenedText;
+}
+
+
+// Function to get subcategories by category
+function getSubcategoriesByCategory($conn)
+{
+    $sql = "SELECT id, name, parent_id 
+    FROM sub_category";
+    $result = $conn->query($sql);
+
+    $subcategories = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $parentId = $row['parent_id'];
+            if (!isset($subcategories[$parentId])) {
+                $subcategories[$parentId] = [];
+            }
+            $subcategories[$parentId][] = [
+                'id' => $row['id'],
+                'name' => $row['name']
+            ];
+        }
+    }
+
+    return $subcategories;
 }
