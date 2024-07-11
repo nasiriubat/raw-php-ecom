@@ -354,3 +354,62 @@ function getSubcategoriesByCategory($conn)
 
     return $subcategories;
 }
+
+
+function addToCart($conn, $productID, $quantity = 1)
+{
+    $product = getById($conn, 'product', $productID);
+    // Initialize the cart if it's not set
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    // Check if the product is already in the cart
+    if (isset($_SESSION['cart'][$product['id']])) {
+        // Update the quantity and total price
+        $_SESSION['cart'][$product['id']]['quantity'] += $quantity;
+        $_SESSION['cart'][$product['id']]['total_price'] += $product['price'] * $quantity;
+    } else {
+        // Add new product to the cart
+        $_SESSION['cart'][$product['id']] = [
+            'id' => $product['id'],
+            'name' => $product['name'],
+            'unit_price' => $product['price'],
+            'quantity' => $quantity,
+            'total_price' => $product['price'] * $quantity
+        ];
+    }
+}
+
+function showCart()
+{
+    if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+        return [
+            'products' => [],
+            'total_price' => 0
+        ];
+    }
+
+    $cart = $_SESSION['cart'];
+    $totalPrice = array_sum(array_column($cart, 'total_price'));
+
+    return [
+        'products' => $cart,
+        'total_price' => $totalPrice
+    ];
+}
+
+function getCartProductCount()
+{
+    if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+        return '';
+    }
+
+    return array_sum(array_column($_SESSION['cart'], 'quantity'));
+}
+function clearCart()
+{
+    if (isset($_SESSION['cart'])) {
+        unset($_SESSION['cart']);
+    }
+}

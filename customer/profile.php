@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link rel="stylesheet" href="../admin/assets/css/styles.css">
 </head>
+
 <body>
     <nav class="navbar">
-<div class="site-name">
-        <a href="../index.php">E-Shop</a>
-        </div>        <div class="nav-right">
+        <div class="site-name">
+            <a href="../index.php">E-Shop</a>
+        </div>
+        <div class="nav-right">
             <a href="profile.html">
                 <img class="img profile-img" src="../admin/assets/images/margot.jpg" alt="profile-img">
             </a>
@@ -35,37 +38,38 @@
                 <h2>Profile</h2>
                 <a href="" class="btn back">Back</a>
             </div>
-            <form class="custom-form"  action="profile_update.php" method="post" enctype="multipart/form-data">
+            <form class="custom-form" action="profile_update.php" method="post" enctype="multipart/form-data">
                 <div class="form-div">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="text" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Profile Image:</label>
+                        <input type="file" id="image" name="image" accept="image/*">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="image">Profile Image:</label>
-                    <input type="file" id="image" name="image" accept="image/*">
-                </div>
-            </div>
                 <button type="submit">Update</button>
             </form>
         </div>
     </div>
-    
+
 </body>
+
 </html>

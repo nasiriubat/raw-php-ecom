@@ -17,6 +17,12 @@ $products = getAll($conn, 'product');
 $home_page = true;
 $searchText = '';
 //search by category
+if (isset($_GET['addToCart'])) {
+    // clearCart();
+    $productId = $_GET['addToCart'];
+    $cartReturn = addToCart($conn, $productId);
+    header("Location: " . $_SERVER['PHP_SELF']);
+}
 if (isset($_GET['subcategoryId'])) {
     $activeCatId = $_GET['subcategoryId'];
     $products = productsByCategory($conn, $_GET['subcategoryId']);
@@ -45,7 +51,7 @@ if (isset($_GET['search'])) {
             </div>
             <div class="navbar-links">
 
-                <a href="cart.php">Cart</a>
+                <a href="cart.php">Cart <sup><?= getCartProductCount() ?></sup></a>
                 <?php
                 if (isLoggedIn()) {
                     if (isAdmin()) { ?>
@@ -113,7 +119,7 @@ if (isset($_GET['search'])) {
                                     <h4><?= showText($product['name']) ?></h4>
                                 </a>
                                 <p class="price">BDT <?= $product['price'] ?></p>
-                                <a href="./add_to_cart.php?id=<?= $product['id'] ?>" class="add-to-cart">Add to Cart</a>
+                                <a href="index.php?addToCart=<?= $product['id'] ?>" class="add-to-cart">Add to Cart</a>
                             </div>
                         <?php }
                     } else { ?>

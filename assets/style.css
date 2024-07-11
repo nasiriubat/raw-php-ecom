@@ -117,18 +117,18 @@ body {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: space-between;
     /* height: 100%; */
 }
 
 .product-card {
-    width: 30%;
+    width: 29%;
     background-color: #fff;
     margin-bottom: 20px;
     margin-left: 20px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    height: 50vh;
+    height: 320px;
     text-align: center !important;
     border-radius: 8px;
 
@@ -376,10 +376,11 @@ body {
 }
 
 .sub-banner-section {
+    display: block;
     width: 100%;
-    margin: 25px 15px;
-    background-color: #f8570663;
     padding: 0 20px;
+    margin: 15px;
+
 }
 
 .sub-banner-section ul {
@@ -396,7 +397,129 @@ body {
     border-radius: 2px;
 
 }
+
 .sub-banner-section ul li a:hover {
     background-color: #f85606;
     color: white;
+}
+
+.cart-container {
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+}
+
+.cart-left {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 60%;
+}
+
+.required {
+    color: red;
+    font-size: 20px;
+}
+
+.custom-form .form-group {
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+
+.custom-form .form-group:nth-child(even){
+    margin-right: 0 !important;
+}
+
+.custom-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.custom-form .form-group input,
+.custom-form .form-group select {
+    padding: 8px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+
+.custom-form button {
+    padding: 15px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.custom-form button:hover {
+    background-color: #0056b3;
+}
+
+.w100 {
+    width: 100% !important;
+}
+
+.w50 {
+    width: 48%;
+}
+
+.form-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cart-left h3 {
+    color: #b31818 !important;
+    font-size: 20px;
+}
+
+.cart-right{
+    padding: 20px;
+    background-color: white;
+    width: 33%;
+}
+
+.cart-right h3{
+    color: #186db3 !important;
+    font-size: 20px;
+    text-align: center;
+}
+
+.cart-item{
+    background-color: #ebe6e6;
+    padding:  5px 15px;
+    margin-bottom: 10px;
+}
+
+.d-flex{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.plus-minus button{
+    padding: 3px 10px !important ;
+    font-size: 20px;
+}
+
+.plus-minus p{
+    margin: 0 10px;
+}
+
+.cart-item h4{
+    text-align: center;
+    /* color: #007BFF; */
+    color: #f85606;
+}
+.p-details h4{
+    text-align: left;
+        color: #007BFF;
+
+}
+
+.total-div{
+    
 }
