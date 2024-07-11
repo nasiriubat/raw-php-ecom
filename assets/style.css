@@ -422,10 +422,10 @@ body {
 
 .custom-form .form-group {
     margin-bottom: 15px;
-    margin-right: 10px;
+    /* margin-right: 10px; */
 }
 
-.custom-form .form-group:nth-child(even){
+.custom-form .form-group:nth-child(even) {
     margin-right: 0 !important;
 }
 
@@ -449,6 +449,8 @@ body {
     border: none;
     cursor: pointer;
     width: 100%;
+    margin-top: 10px;
+    font-size: 20px;
 }
 
 .custom-form button:hover {
@@ -475,51 +477,76 @@ body {
     font-size: 20px;
 }
 
-.cart-right{
+.cart-right {
     padding: 20px;
     background-color: white;
     width: 33%;
 }
 
-.cart-right h3{
+.cart-right h3 {
     color: #186db3 !important;
     font-size: 20px;
     text-align: center;
 }
 
-.cart-item{
+.cart-item {
     background-color: #ebe6e6;
-    padding:  5px 15px;
+    padding:  15px;
     margin-bottom: 10px;
+    border-radius: 5px;
 }
 
-.d-flex{
+.d-flex {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
 }
 
-.plus-minus button{
-    padding: 3px 10px !important ;
+.plus-minus button {
+    padding: 3px 10px !important;
     font-size: 20px;
 }
 
-.plus-minus p{
+.plus-minus p {
     margin: 0 10px;
 }
 
-.cart-item h4{
+.cart-item h4 {
     text-align: center;
     /* color: #007BFF; */
     color: #f85606;
+    padding-top: 0px;
+    margin-top: 0px;
+    font-size: 18px;
 }
-.p-details h4{
+
+
+.p-details h4 {
     text-align: left;
-        color: #007BFF;
+    color: #007BFF;
 
 }
 
-.total-div{
-    
+.total-div {
+    background-color: #f85606;
+    padding: 0px 15px;
+    margin-bottom: 10px;
+    color: white;
+}
+.total-div p span{
+ font-weight: 700;
+ font-family: Arial, Helvetica, sans-serif !important;
+ font-size: 25px;
+}
+
+.total-div p b{
+    color: black;
+}
+
+.cart-header a{
+text-decoration: none;
+color: white;
+background-color: #b31818;
+padding: 5px 10px;
 }

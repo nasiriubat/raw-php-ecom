@@ -413,3 +413,30 @@ function clearCart()
         unset($_SESSION['cart']);
     }
 }
+
+
+function updateCartItemQuantity($productId, $quantity)
+{
+    if (isset($_SESSION['cart'][$productId])) {
+        // Update quantity
+        $_SESSION['cart'][$productId]['quantity'] = $quantity;
+
+        // Update total price for the item
+        $_SESSION['cart'][$productId]['total_price'] = $_SESSION['cart'][$productId]['unit_price'] * $quantity;
+
+        // Calculate total cart price
+        $totalCartPrice = 0;
+        foreach ($_SESSION['cart'] as $item) {
+            $totalCartPrice += $item['total_price'];
+        }
+
+        // Update total cart price
+        $_SESSION['cart']['total_price'] = $totalCartPrice;
+
+        // Return updated cart data
+        return $_SESSION['cart'];
+    }
+
+    // Return empty array if product not found (though in typical usage, you might handle this differently)
+    return false;
+}

@@ -10,8 +10,14 @@
 <?php
 include './config/helper_function.php';
 include './config/db_connect.php';
-$cartItems = showCart();
 
+if (isset($_GET['clearCart'])) {
+    clearCart();
+    header("Location: index.php");
+}
+
+
+$cartItems = showCart();
 ?>
 
 <body>
@@ -79,34 +85,37 @@ $cartItems = showCart();
             </form>
         </div>
         <div class="cart-right">
-            <h3>Cart Items</h3>
+            <div class="cart-header d-flex">
+                <h3>Cart Items</h3>
+                <a href="cart.php?clearCart">Clear cart</a>
+            </div>
             <?php
             if (isset($cartItems['products'])) {
                 foreach ($cartItems['products'] as $item) { ?>
-                    <div class="cart-item d-flex">
-                        <div class="p-details">
-                            <h4><?= showText($item['name'], 20) ?></h4>
-                            <p><b>Price :</b> <?= $item['unit_price'] ?></p>
-                        </div>
-                        <div class="plus-minus ">
-                            <h4>Quantity</h4>
-                            <div class="d-flex">
-                                <button class="plus-btn">+</button>
-                                <p><?= $item['quantity'] ?></p>
-                                <button class="minus-btn">-</button>
+                    <?php if (isset($item['id']) && !empty($item['id'])) { ?>
+                        <div class="cart-item d-flex" data-product-id="<?= $item['id'] ?>">
+                            <div class="p-details">
+                                <h4><?= showText($item['name'], 20) ?></h4>
+                                <p><b>Price :</b> <?= $item['unit_price'] ?></p>
+                            </div>
+                            <div class="plus-minus">
+                                <h4>Quantity</h4>
+                                <div class="d-flex">
+                                    <button class="plus-btn">+</button>
+                                    <p class="quantity"><?= $item['quantity'] ?></p>
+                                    <button class="minus-btn">-</button>
+                                </div>
+                            </div>
+                            <div class="total-unit-price">
+                                <h4>Unit Total</h4>
+                                <p><span id="show-total-unit-price-<?= $item['id'] ?>"><?= $item['total_price'] ?></span> <b>BDT</b></p>
                             </div>
                         </div>
-                        <div class="total-unit-price">
-                            <h4>Unit Total</h4>
-                            <p><?= $item['total_price'] ?> <b>BDT</b></p>
-                        </div>
-
-                    </div>
-                <?php } ?>
-
-                <div class="total-div">
+                <?php }
+                } ?>
+                <div class="total-div d-flex">
                     <h2>Total Price</h2>
-                    <p><?= $cartItems['total_price'] ?> <b>BDT</b></p>
+                    <p> <span id="show-total-price"><?= $cartItems['total_price'] ?></span> <b>BDT</b></p>
                 </div>
             <?php } else { ?>
                 <p>No Items added</p>
@@ -121,6 +130,61 @@ $cartItems = showCart();
             <p>&copy;All rights reserved.</p>
         </div>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const updateCartButtons = document.querySelectorAll('.plus-btn, .minus-btn');
+
+            updateCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const cartItem = this.closest('.cart-item');
+                    const productId = cartItem.dataset.productId;
+                    const quantityElement = cartItem.querySelector('.quantity');
+                    let quantity = parseInt(quantityElement.textContent);
+
+                    if (this.classList.contains('plus-btn')) {
+                        quantity++;
+                    } else if (this.classList.contains('minus-btn') && quantity > 1) {
+                        quantity--;
+                    }
+
+                    // Create AJAX request
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', './config/updatecart.php', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.responseType = 'json';
+
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            const response = xhr.response;
+                            console.log(response[productId])
+                            if (response && response[productId]) {
+                                quantityElement.textContent = response[productId].quantity;
+                                // Update total price or any other UI elements
+                                document.getElementById('show-total-price').textContent = response.total_price;
+                                document.getElementById('show-total-unit-price-'+productId).textContent = response[productId].total_price;
+                            } else {
+                                console.error('Invalid or empty response:', response);
+                                alert('Failed to update cart item');
+                            }
+                        } else {
+                            console.error('Error updating cart:', xhr.statusText);
+                            alert('Error updating cart. Please try again.');
+                        }
+                    };
+
+                    xhr.onerror = function() {
+                        console.error('Request failed');
+                        alert('Request failed. Please try again.');
+                    };
+
+                    const data = `action=update_quantity&product_id=${productId}&quantity=${quantity}`;
+                    xhr.send(data);
+                });
+            });
+        });
+    </script>
+
+
 
 </body>
 
