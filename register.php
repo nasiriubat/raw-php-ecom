@@ -50,10 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = newRegister($conn, $data_to_insert);
 
     if ($result !== false) {
-        echo "<script>alert('Registration successful!');</script>";
-        header('Location: login.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Registration successful!');window.location.href='login.php';</script>";
     } else {
-        echo "<script>alert('Registration failed. Please try again later.');</script>";
+        echo "<script>sessionStorage.setItem('showAlert', 'Registration failed. Please try again later.');window.location.href='register.php';</script>";
     }
 }
 ?>

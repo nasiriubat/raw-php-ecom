@@ -3,13 +3,11 @@ include '../config/db_connect.php';
 include '../config/helper_function.php';
 
 if (!isLoggedIn()) {
-    echo "<script>alert('Not Authenticated!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
 
 if (!isAdmin()) {
-    echo "<script>alert('Not Authorized!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
 }
 
 $subcategories = getAll($conn, 'sub_category', 'ASC');
@@ -31,15 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
         $newData = createData($conn, 'product', $data);
     } else {
-        echo "<script>alert('Failed to save the image. Please try again.');</script>";
-        header('Location: products.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Failed to save the image. Please try again.');window.location.href='products.php';</script>";
     }
     if ($newData) {
-        echo "<script>alert('Insert successful!');</script>";
-        header('Location: products.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Insert successful!');window.location.href='products.php';</script>";
     } else {
-        echo "<script>alert('Insert Failed, please try again.');</script>";
-        header('Location: products.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Insert Failed, please try again.');window.location.href='products.php';</script>";
     }
 }
 ?>

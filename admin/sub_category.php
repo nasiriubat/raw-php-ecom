@@ -5,13 +5,11 @@ include '../config/db_connect.php';
 include '../config/helper_function.php';
 
 if (!isLoggedIn()) {
-    echo "<script>alert('Not Authenticated!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
 
 if (!isAdmin()) {
-    echo "<script>alert('Not Authorized!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
 }
 
 if (isset($_GET['id'])) {
@@ -19,11 +17,11 @@ if (isset($_GET['id'])) {
     $deleted = deleteById($conn, 'sub_category', $product_id);
 
     if ($deleted) {
-        echo "<script>alert('Item deleted successfully!');</script>";
+        echo "<script>sessionStorage.setItem('showAlert', 'Item deleted successfully!');window.location.href='sub_category.php';</script>";
     } else {
-        echo "<script>alert('Failed to delete item. Please try again.');</script>";
+        echo "<script>sessionStorage.setItem('showAlert', 'Failed to delete item. Please try again.');window.location.href='sub_category.php';</script>";
     }
-    header('Location: sub_category.php');
+
 }
 
 $sub_categories = getAll($conn, 'sub_category');

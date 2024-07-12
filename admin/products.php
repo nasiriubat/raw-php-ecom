@@ -5,13 +5,11 @@ include '../config/db_connect.php';
 include '../config/helper_function.php';
 
 if (!isLoggedIn()) {
-    echo "<script>alert('Not Authenticated!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
 
 if (!isAdmin()) {
-    echo "<script>alert('Not Authorized!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
 }
 
 if (isset($_GET['id'])) {
@@ -22,11 +20,10 @@ if (isset($_GET['id'])) {
     $deleted = deleteById($conn, 'product', $product_id);
 
     if ($deleted) {
-        echo "<script>alert('Product deleted successfully!');</script>";
+        echo "<script>sessionStorage.setItem('showAlert', 'Product deleted successfully!');window.location.href='products.php';</script>";
     } else {
-        echo "<script>alert('Failed to delete product. Please try again.');</script>";
+        echo "<script>sessionStorage.setItem('showAlert', 'Failed to delete product. Please try again.');window.location.href='products.php';</script>";
     }
-    header('Location: products.php');
 }
 
 $products = getAll($conn, 'product');

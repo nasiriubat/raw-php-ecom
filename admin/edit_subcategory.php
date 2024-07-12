@@ -3,13 +3,11 @@ include '../config/db_connect.php';
 include '../config/helper_function.php';
 
 if (!isLoggedIn()) {
-    echo "<script>alert('Not Authenticated!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
 
 if (!isAdmin()) {
-    echo "<script>alert('Not Authorized!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -28,14 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $data = updateById($conn, 'sub_category', $id, $inputData);
     if ($data) {
-        echo "<script>alert('Update successful!');</script>";
-        header('Location: sub_category.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Update successful!');window.location.href='sub_category.php';</script>";
     } else {
-        echo "<script>alert('Update Failed, please try again.');</script>";
-        header('Location: sub_category.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Update Failed, please try again.');window.location.href='sub_category.php';</script>";
     }
 } else {
-    header('Location: sub_category.php');
+    echo "<script>window.location.href='sub_category.php';</script>";
 }
 
 ?>

@@ -22,6 +22,7 @@ if (isset($_GET['addToCart'])) {
     $productId = $_GET['addToCart'];
     $cartReturn = addToCart($conn, $productId);
     header("Location: " . $_SERVER['PHP_SELF']);
+    
 }
 if (isset($_GET['subcategoryId'])) {
     $activeCatId = $_GET['subcategoryId'];

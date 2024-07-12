@@ -59,23 +59,19 @@ include '../config/db_connect.php';
 include '../config/helper_function.php';
 
 if (!isLoggedIn()) {
-    echo "<script>alert('Not Authenticated!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
 
 if (!isAdmin()) {
-    echo "<script>alert('Not Authorized!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $data = createData($conn, 'category', ['name' => $name]);
     if ($data) {
-        echo "<script>alert('Insert successful!');</script>";
-        header('Location: categories.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Insert successful!');window.location.href='categories.php';</script>";
     } else {
-        echo "<script>alert('Insert Failed, please try again.');</script>";
-        header('Location: categories.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Insert Failed, please try again.');window.location.href='categories.php';</script>";
     }
 }
 ?>

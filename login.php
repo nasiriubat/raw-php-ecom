@@ -37,16 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $user = login($conn, $email, $password);
     if ($user['role'] == 'admin') {
-        echo "<script>alert('Login successful!');</script>";
-        header('Location: ./admin/index.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Login successful!');window.location.href='./admin/index.php';</script>";
     } elseif ($user['role'] == 'customer') {
-        echo "<script>alert('Login successful!');</script>";
-        header('Location: ./customer/index.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Login successful!');window.location.href='./customer/index.php';</script>";
     } elseif ($user['role'] == 'rider') {
-        echo "<script>alert('Login successful!');</script>";
-        header('Location: ./rider/index.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Login successful!');window.location.href='./rider/index.php';</script>";
     } else {
-        echo "<script>alert('Login failed. Please check your credentials and try again.');</script>";
+        echo "<script>sessionStorage.setItem('showAlert', 'Login failed. Please check your credentials and try again.');window.location.href='login.php';</script>";
     }
 }
 ?>

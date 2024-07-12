@@ -22,6 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $payment_method = $_POST['payment_method'];
+    if (createOrder($conn, $name, $email, $phone, $address, $payment_method)) {
+        echo "<script>sessionStorage.setItem('showAlert', 'Order placed successfully!'); window.location.href='index.php';</script>";
+    } else {
+        echo "<script>sessionStorage.setItem('showAlert', 'Failed to place order. Please try again.'); window.location.href='index.php';</script>";
+    }
 }
 
 $cartItems = showCart();
@@ -175,17 +180,17 @@ $cartItems = showCart();
                                 document.getElementById('show-total-unit-price-' + productId).textContent = response[productId].total_price;
                             } else {
                                 console.error('Invalid or empty response:', response);
-                                alert('Failed to update cart item');
+                                sessionStorage.setItem('showAlert', 'Failed to update cart item');
                             }
                         } else {
                             console.error('Error updating cart:', xhr.statusText);
-                            alert('Error updating cart. Please try again.');
+                            sessionStorage.setItem('showAlert', 'Error updating cart. Please try again.');
                         }
                     };
 
                     xhr.onerror = function() {
                         console.error('Request failed');
-                        alert('Request failed. Please try again.');
+                        sessionStorage.setItem('showAlert', 'Request failed. Please try again.');
                     };
 
                     const data = `action=update_quantity&product_id=${productId}&quantity=${quantity}`;

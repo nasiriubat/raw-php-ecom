@@ -3,13 +3,11 @@ include '../config/db_connect.php';
 include '../config/helper_function.php';
 
 if (!isLoggedIn()) {
-    echo "<script>alert('Not Authenticated!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
 
 if (!isAdmin()) {
-    echo "<script>alert('Not Authorized!');</script>";
-    header('Location: index.php');
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
 }
 
 $categories = getAll($conn, 'category', 'ASC');
@@ -21,11 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
     $newData = createData($conn, 'sub_category', $data);
     if ($newData) {
-        echo "<script>alert('Insert successful!');</script>";
-        header('Location: sub_category.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Insert successful!');window.location.href='sub_category.php';</script>";
     } else {
-        echo "<script>alert('Insert Failed, please try again.');</script>";
-        header('Location: sub_category.php');
+        echo "<script>sessionStorage.setItem('showAlert', 'Insert Failed, please try again.');window.location.href='sub_category.php';</script>";
     }
 }
 ?>

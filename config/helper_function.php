@@ -100,7 +100,6 @@ function createData($conn, $table, $data)
     $values = implode(', ', $escaped_values);
 
     $sql = "INSERT INTO $table ($columns) VALUES ($values)";
-
     if ($conn->query($sql) === TRUE) {
         $last_id = $conn->insert_id;
         $last_data = getById($conn, $table, $last_id);
@@ -439,4 +438,56 @@ function updateCartItemQuantity($productId, $quantity)
 
     // Return empty array if product not found (though in typical usage, you might handle this differently)
     return false;
+}
+
+function createOrder($conn, $name, $email, $phone, $address, $payment_method, $ref_no = 'cash_on_delivery')
+{
+
+    $cart = $_SESSION['cart'] ?? [];
+
+    if (empty($cart)) {
+        return false;
+    }
+
+    $orderDetails = [];
+    $totalPrice = 0;
+
+    foreach ($cart as $productId => $item) {
+        $orderDetails[] = [
+            'product_id' => $productId,
+            'name' => $item['name'],
+            'unit_price' => $item['unit_price'],
+            'quantity' => $item['quantity'],
+            'total_price' => $item['unit_price'] * $item['quantity']
+        ];
+        $totalPrice += $item['unit_price'] * $item['quantity'];
+    }
+
+
+    $data = [
+        'userId' =>  0,
+        'total' => $totalPrice,
+        'order_details' => json_encode($orderDetails),
+        // 'ref_no' => uniqid('order_'),
+        'ref_no' => $ref_no,
+        'payment_method' => $payment_method,
+        'user_details' => json_encode([
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address
+        ]),
+        'date' => date('Y-m-d H:i:s'),
+    ];
+
+    // $stmt = $conn->prepare("INSERT INTO orders (total, userId, order_details, ref_no, payment_method, user_details,date) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    // $stmt->bind_param("disssss", $totalPrice, $userId, $orderDetailsJson, $refNo, $payment_method, $userDetailsJson, $date);
+    $newData = createData($conn, 'orders', $data);
+    if ($newData) {
+        // Clear the cart after successful order
+        unset($_SESSION['cart']);
+        return true;
+    } else {
+        return false;
+    }
 }
