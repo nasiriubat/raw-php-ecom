@@ -13,3 +13,5 @@ document.addEventListener('DOMContentLoaded', function() {
         sessionStorage.removeItem('showAlert');
     }
 });
+
+console.log('lololo')

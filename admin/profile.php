@@ -1,5 +1,6 @@
-<?php include './partial/header.php' ?>
-
+<?php
+include './partial/header.php';
+?>
 <div class="content  profile">
     <div class="top-bar">
         <h2>Profile</h2>
@@ -36,7 +37,8 @@
     </form>
 </div>
 </div>
-
+<?php include './partial/footer.php' ?>
+<script src="./assets/js/scripts.js"></script>
 </body>
 
 </html>

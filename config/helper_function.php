@@ -466,6 +466,7 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
 
     $data = [
         'userId' =>  0,
+        'status' =>  'Pending',
         'total' => $totalPrice,
         'order_details' => json_encode($orderDetails),
         // 'ref_no' => uniqid('order_'),
