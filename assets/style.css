@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #e4dcdc;
+    background-color: #f5f2f2;
     height: 100vh;
     margin: 0;
 }
@@ -435,6 +435,7 @@ body {
 }
 
 .custom-form .form-group input,
+.custom-form .form-group textarea,
 .custom-form .form-group select {
     padding: 8px;
     box-sizing: border-box;
@@ -444,7 +445,7 @@ body {
 
 .custom-form button {
     padding: 15px 15px;
-    background-color: #007BFF;
+    background-color: #f85606;
     color: white;
     border: none;
     cursor: pointer;
@@ -453,8 +454,26 @@ body {
     font-size: 20px;
 }
 
+.btn{
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    padding: 15px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.btn:hover{
+    color: black;
+    background-color: #e9e51a;
+}
+
 .custom-form button:hover {
-    background-color: #0056b3;
+    background-color: #b31818;
 }
 
 .w100 {
@@ -549,4 +568,17 @@ text-decoration: none;
 color: white;
 background-color: #b31818;
 padding: 5px 10px;
+}
+
+.no-item-added{
+    text-align: center;
+    font-size: 25px;
+    color: #333;
+}
+
+.cart-count{
+    /* background-color: rgb(255, 255, 255);
+    padding: 1px 5px;
+    border-radius: 50%; */
+    color: #000000;
 }

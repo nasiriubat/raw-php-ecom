@@ -33,6 +33,7 @@ if (isset($_GET['subcategoryId'])) {
 if (isset($_GET['search'])) {
     $searchText = $_GET['search'];
     $products = productsBySearch($conn, $_GET['search']);
+    $home_page = false;
 }
 ?>
 
@@ -51,7 +52,7 @@ if (isset($_GET['search'])) {
             </div>
             <div class="navbar-links">
 
-                <a href="cart.php">Cart <sup><?= getCartProductCount() ?></sup></a>
+                <a href="cart.php">Cart <sup class="cart-count"><?= getCartProductCount() ?></sup></a>
                 <?php
                 if (isLoggedIn()) {
                     if (isAdmin()) { ?>
