@@ -128,16 +128,22 @@ $cartItems = showCart();
                     quantity--;
                 }
 
-                // Create AJAX request
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', './config/updatecart.php', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.responseType = 'json';
+                // Create the data to send
+                const data = new URLSearchParams();
+                data.append('action', 'update_quantity');
+                data.append('product_id', productId);
+                data.append('quantity', quantity);
 
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        const response = xhr.response;
-                        console.log(response[productId])
+                // Send the fetch request
+                fetch('./config/updatecart.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: data
+                    })
+                    .then(response => response.json())
+                    .then(response => {
                         if (response && response[productId]) {
                             quantityElement.textContent = response[productId].quantity;
                             // Update total price or any other UI elements
@@ -147,19 +153,11 @@ $cartItems = showCart();
                             console.error('Invalid or empty response:', response);
                             sessionStorage.setItem('showAlert', 'Failed to update cart item');
                         }
-                    } else {
-                        console.error('Error updating cart:', xhr.statusText);
+                    })
+                    .catch(error => {
+                        console.error('Error updating cart:', error);
                         sessionStorage.setItem('showAlert', 'Error updating cart. Please try again.');
-                    }
-                };
-
-                xhr.onerror = function() {
-                    console.error('Request failed');
-                    sessionStorage.setItem('showAlert', 'Request failed. Please try again.');
-                };
-
-                const data = `action=update_quantity&product_id=${productId}&quantity=${quantity}`;
-                xhr.send(data);
+                    });
             });
         });
     });
