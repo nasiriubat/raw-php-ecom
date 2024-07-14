@@ -56,7 +56,7 @@ include './partial/header.php';
                         </select>
                     </div>
                 </div>
-                <button type="submit">create</button>
+                <button type="submit">Create</button>
             </form>
         </div>
     </div>

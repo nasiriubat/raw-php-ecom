@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $payment_method = $_POST['payment_method'];
-    if (createOrder($conn, $name, $email, $phone, $address, $payment_method)) {
+    $ref_no = $_POST['ref_no'];
+    if (createOrder($conn, $name, $email, $phone, $address, $payment_method,$ref_no)) {
         echo "<script>sessionStorage.setItem('showAlert', 'Order placed successfully!'); window.location.href='index.php';</script>";
     } else {
         echo "<script>sessionStorage.setItem('showAlert', 'Failed to place order. Please try again.'); window.location.href='cart.php';</script>";
@@ -30,7 +31,7 @@ $cartItems = showCart();
 <!-- Main Content -->
 <div class="cart-container">
     <div class="cart-left">
-        <form class="custom-form" action="cart.php" method="post" enctype="multipart/form-data">
+        <form class="custom-form" action="cart.php" method="post" enctype="multipart/form-data" id="payment-form">
             <h3 class="">Delivery Information :</h3>
             <div class="form-div">
                 <div class="form-group w50">
@@ -56,12 +57,16 @@ $cartItems = showCart();
                     <label for="address">Address: <small class="required">*</small></label>
                     <textarea col="" rows="3" name="address" id="address"><?= $user['address'] ?? '' ?></textarea>
                 </div>
+                <div id="card-element" class="form-group w100" style="display: none;">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+                <div id="card-errors" role="alert" class="form-group w100" style="color: red;"></div>
 
             </div>
             <div class="cart-buttons">
                 <a class="btn" href="index.php">Continue Shopping</a>
                 <?php if (getCartProductCount() != '') { ?>
-                    <button type="submit">Checkout</button>
+                    <button id="cart-submit-btn" type="submit">Checkout</button>
                 <?php } ?>
             </div>
         </form>
@@ -113,58 +118,10 @@ $cartItems = showCart();
         <p>&copy;All rights reserved.</p>
     </div>
 </footer>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const updateCartButtons = document.querySelectorAll('.plus-btn, .minus-btn');
 
-        updateCartButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const cartItem = this.closest('.cart-item');
-                const productId = cartItem.dataset.productId;
-                const quantityElement = cartItem.querySelector('.quantity');
-                let quantity = parseInt(quantityElement.textContent);
-
-                if (this.classList.contains('plus-btn')) {
-                    quantity++;
-                } else if (this.classList.contains('minus-btn') && quantity > 1) {
-                    quantity--;
-                }
-
-                // Create the data to send
-                const data = new URLSearchParams();
-                data.append('action', 'update_quantity');
-                data.append('product_id', productId);
-                data.append('quantity', quantity);
-
-                // Send the fetch request
-                fetch('./config/updatecart.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: data
-                    })
-                    .then(response => response.json())
-                    .then(response => {
-                        if (response && response[productId]) {
-                            quantityElement.textContent = response[productId].quantity;
-                            // Update total price or any other UI elements
-                            document.getElementById('show-total-price').textContent = response.total_price;
-                            document.getElementById('show-total-unit-price-' + productId).textContent = response[productId].total_price;
-                        } else {
-                            console.error('Invalid or empty response:', response);
-                            sessionStorage.setItem('showAlert', 'Failed to update cart item');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error updating cart:', error);
-                        sessionStorage.setItem('showAlert', 'Error updating cart. Please try again.');
-                    });
-            });
-        });
-    });
-</script>
-
+<script src="./assets/js/cart.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="./assets/js/stripe.js"></script>
 <script src="./assets/js/scripts.js"></script>
 
 

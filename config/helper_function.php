@@ -536,3 +536,11 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
         return false;
     }
 }
+
+function showDate($date)
+{
+    $date = new DateTime($date);
+    $formattedDate = $date->format('H:i, d F Y'); // Change the format as needed
+
+    return $formattedDate;
+}
