@@ -4,7 +4,6 @@ include './config/db_connect.php';
 include './partial/navbar.php';
 $categories = getAll($conn, 'category');
 $subcategories = getSubcategoriesByCategory($conn);
-$allSubCategory = getAll($conn, 'sub_category');
 $products = getAll($conn, 'product');
 $home_page = true;
 $cat_page = false;
@@ -30,7 +29,7 @@ if (isset($_GET['subcategoryId'])) {
 
 if (isset($_GET['categoryId'])) {
     $activeCatId = $_GET['categoryId'];
-    $subcategories = getSubcategoriesByCategory($conn);
+    $allSubCategory = getSubcategoriesByCategory($conn);
     $products = getProductsByCategory($conn, $activeCatId);
     $home_page = false;
     $cat_page = true;
@@ -81,8 +80,8 @@ if (isset($_GET['search'])) {
             <?php if ($cat_page) { ?>
                 <div class="sub-banner-section">
                     <ul>
-                        <?php if (isset($allSubCategory)) {
-                            foreach ($allSubCategory as $subitem) { ?>
+                        <?php if (isset($allSubCategory[$activeCatId])) {
+                            foreach ($allSubCategory[$activeCatId] as $subitem) { ?>
                                 <li><a href="index.php?subcategoryId=<?= $subitem['id'] ?>"><?= $subitem['name'] ?></a></li>
                         <?php }
                         } ?>
