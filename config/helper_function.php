@@ -354,6 +354,50 @@ function getSubcategoriesByCategory($conn)
     return $subcategories;
 }
 
+function getSubcategoriesByCategoryId($conn, $categoryId)
+{
+    $subcategories = [];
+    $sql = "SELECT id FROM sub_category WHERE parent_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $categoryId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $subcategories[] = $row['id'];
+    }
+
+    return $subcategories;
+}
+
+function getProductsByCategory($conn, $categoryId)
+{
+    // Get subcategories for the given category ID
+    $subcategoryIds = getSubcategoriesByCategoryId($conn, $categoryId);
+
+    // Get products for the subcategories
+    $products = [];
+
+    if (empty($subcategoryIds)) {
+        return $products;
+    }
+
+    $placeholders = implode(',', array_fill(0, count($subcategoryIds), '?'));
+    $types = str_repeat('i', count($subcategoryIds)); // Assuming all IDs are integers
+
+    $sql = "SELECT * FROM product WHERE sub_categoryId IN ($placeholders)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param($types, ...$subcategoryIds);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+
+    return $products;
+}
+
 
 function addToCart($conn, $productID, $quantity = 1)
 {

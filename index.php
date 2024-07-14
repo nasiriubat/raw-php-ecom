@@ -7,19 +7,33 @@ $subcategories = getSubcategoriesByCategory($conn);
 $allSubCategory = getAll($conn, 'sub_category');
 $products = getAll($conn, 'product');
 $home_page = true;
+$cat_page = false;
 $searchText = '';
-//search by category
+
 if (isset($_GET['addToCart'])) {
     // clearCart();
     $productId = $_GET['addToCart'];
     $cartReturn = addToCart($conn, $productId);
     echo "<script>sessionStorage.setItem('showAlert', 'Product Added To Cart!'); window.location.href='index.php';</script>";
-
+}
+if (isset($_GET['buyNow'])) {
+    // clearCart();
+    $productId = $_GET['buyNow'];
+    $cartReturn = addToCart($conn, $productId);
+    echo "<script>sessionStorage.setItem('showAlert', 'Product Added To Cart!'); window.location.href='cart.php';</script>";
 }
 if (isset($_GET['subcategoryId'])) {
     $activeCatId = $_GET['subcategoryId'];
     $products = productsByCategory($conn, $_GET['subcategoryId']);
     $home_page = false;
+}
+
+if (isset($_GET['categoryId'])) {
+    $activeCatId = $_GET['categoryId'];
+    $subcategories = getSubcategoriesByCategory($conn);
+    $products = getProductsByCategory($conn, $activeCatId);
+    $home_page = false;
+    $cat_page = true;
 }
 
 //search by input
@@ -41,7 +55,7 @@ if (isset($_GET['search'])) {
                     <?php foreach ($categories as $category) {
                         if (isset($subcategories[$category['id']])) { ?>
                             <li class="category-item">
-                                <p class=""><?= showText($category['name'], 20) ?></p>
+                                <a href="index.php?categoryId=<?= $category['id'] ?>" class="sidebar-cat-item"><?= showText($category['name'], 20) ?></a>
                                 <ul class="subcategory-list">
                                     <?php foreach ($subcategories[$category['id']] as $item) { ?>
                                         <li><a href="index.php?subcategoryId=<?= $item['id'] ?>"><?= $item['name'] ?></a></li>
@@ -62,9 +76,11 @@ if (isset($_GET['search'])) {
                 <div class="banner-section">
                     <img src="./assets/images/banner.jpg" alt="">
                 </div>
+
+            <?php } ?>
+            <?php if ($cat_page) { ?>
                 <div class="sub-banner-section">
                     <ul>
-
                         <?php if (isset($allSubCategory)) {
                             foreach ($allSubCategory as $subitem) { ?>
                                 <li><a href="index.php?subcategoryId=<?= $subitem['id'] ?>"><?= $subitem['name'] ?></a></li>
@@ -72,7 +88,6 @@ if (isset($_GET['search'])) {
                         } ?>
                     </ul>
                 </div>
-
             <?php } ?>
             <div class="product-list">
                 <?php if ($products) {
@@ -83,7 +98,10 @@ if (isset($_GET['search'])) {
                                 <h4><?= showText($product['name']) ?></h4>
                             </a>
                             <p class="price">BDT <?= $product['price'] ?></p>
-                            <a href="index.php?addToCart=<?= $product['id'] ?>" class="add-to-cart">Add to Cart</a>
+                            <div class="card-buttons">
+                                <a href="index.php?addToCart=<?= $product['id'] ?>" class="add-to-cart">Add to Cart</a>
+                                <a href="index.php?buyNow=<?= $product['id'] ?>" class="add-to-cart buy-now">Buy Now</a>
+                            </div>
                         </div>
                     <?php }
                 } else { ?>

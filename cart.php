@@ -58,11 +58,13 @@ $cartItems = showCart();
                 </div>
 
             </div>
-            <?php if (getCartProductCount() != '') { ?>
-                <button type="submit">Checkout</button>
-            <?php } ?>
+            <div class="cart-buttons">
+                <a class="btn" href="index.php">Continue Shopping</a>
+                <?php if (getCartProductCount() != '') { ?>
+                    <button type="submit">Checkout</button>
+                <?php } ?>
+            </div>
         </form>
-        <a class="btn" href="index.php">Continue Shopping</a>
 
     </div>
     <div class="cart-right">
