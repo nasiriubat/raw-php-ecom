@@ -3,6 +3,10 @@ include './config/helper_function.php';
 include './config/db_connect.php';
 include './partial/navbar.php';
 
+if (!isLoggedIn()) {
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='./login.php';</script>";
+}
+
 $user = getCurrentUser();
 if (isset($_GET['clearCart'])) {
     clearCart();

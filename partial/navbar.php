@@ -31,10 +31,11 @@
                     if (isAdmin()) { ?>
                         <a href="./admin/index.php">Dashboard</a>
                     <?php } else { ?>
-                        <a href="./customer/index.php">Dashboard</a>
+                        <a href="./customer/profile.php">Profile</a>
                     <?php } ?>
+                    <a href="./customer/orders.php">My Orders</a>
                     <a href="logout.php">Logout</a>
-                <?php } else { ?>
+                    <?php } else { ?>
                     <a href="login.php">Login</a>
                 <?php } ?>
             </div>

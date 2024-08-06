@@ -1,4 +1,14 @@
-<?php include './partial/header.php' ?>
+<?php
+include '../config/db_connect.php';
+include '../config/helper_function.php';
+if (!isLoggedIn()) {
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
+}
+
+// if (!isCustomer()) {
+//     echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
+// }
+include './partial/header.php' ?>
 
 <div class="content">
     <div class="top-bar">
