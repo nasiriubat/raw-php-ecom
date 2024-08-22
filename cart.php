@@ -8,6 +8,8 @@ if (!isLoggedIn()) {
 }
 
 $user = getCurrentUser();
+$wallet_amount = getById($conn,'wallet',$user['id'],'user_id');
+
 if (isset($_GET['clearCart'])) {
     clearCart();
     echo "<script>sessionStorage.setItem('showAlert', 'Cart Cleared!'); window.location.href='index.php';</script>";
@@ -55,7 +57,7 @@ $cartItems = showCart();
                     <select name="payment_method" id="payment_method" required>
                         <option value="cash">Cash On Delivery</option>
                         <option value="stripe">Card</option>
-                        <option value="wallet">Wallet</option>
+                        <option id="wallet" data-wallet="<?= $wallet_amount['amount'] ?? 0 ?>" value="wallet">Wallet</option>
                     </select>
                 </div>
                 <div class="form-group w100">
@@ -108,7 +110,7 @@ $cartItems = showCart();
             } ?>
             <div class="total-div d-flex">
                 <h2>Total Price</h2>
-                <p> <span id="show-total-price"><?= $cartItems['total_price'] ?></span> <b>BDT</b></p>
+                <p> <span id="show-total-price" ><?= $cartItems['total_price'] ?></span> <b>BDT</b></p>
             </div>
         <?php } else { ?>
             <p class="no-item-added">No Items added</p>
@@ -123,7 +125,6 @@ $cartItems = showCart();
         <p>&copy;All rights reserved.</p>
     </div>
 </footer>
-
 <script src="./assets/js/cart.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="./assets/js/stripe.js"></script>

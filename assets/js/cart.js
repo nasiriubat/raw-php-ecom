@@ -1,49 +1,59 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const updateCartButtons = document.querySelectorAll('.plus-btn, .minus-btn');
+$(document).ready(function () {
+    $('.plus-btn, .minus-btn').on('click', function () {
+        const cartItem = $(this).closest('.cart-item');
+        const productId = cartItem.data('product-id');
+        const quantityElement = cartItem.find('.quantity');
+        let quantity = parseInt(quantityElement.text());
 
-    updateCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const cartItem = this.closest('.cart-item');
-            const productId = cartItem.dataset.productId;
-            const quantityElement = cartItem.querySelector('.quantity');
-            let quantity = parseInt(quantityElement.textContent);
+        //hide-show wallet start
+        const walletOption = document.getElementById('wallet');
+        const walletAmount = parseFloat(walletOption.dataset.wallet);
+        const totalPrice = parseFloat(document.getElementById('show-total-price').textContent);
 
-            if (this.classList.contains('plus-btn')) {
-                quantity++;
-            } else if (this.classList.contains('minus-btn') && quantity > 1) {
-                quantity--;
-            }
+        if (totalPrice > walletAmount) {
+            walletOption.disabled = true;
+        }
+        //end
 
-            // Create the data to send
-            const data = new URLSearchParams();
-            data.append('action', 'update_quantity');
-            data.append('product_id', productId);
-            data.append('quantity', quantity);
+        if ($(this).hasClass('plus-btn')) {
+            quantity++;
+        } else if ($(this).hasClass('minus-btn') && quantity > 1) {
+            quantity--;
+        }
 
-            // Send the fetch request
-            fetch('./config/updatecart.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: data
-                })
-                .then(response => response.json())
-                .then(response => {
-                    if (response && response[productId]) {
-                        quantityElement.textContent = response[productId].quantity;
-                        // Update total price or any other UI elements
-                        document.getElementById('show-total-price').textContent = response.total_price;
-                        document.getElementById('show-total-unit-price-' + productId).textContent = response[productId].total_price;
+        // Create the data to send
+        const data = {
+            action: 'update_quantity',
+            product_id: productId,
+            quantity: quantity
+        };
+
+        // Send the AJAX request
+        $.ajax({
+            url: './config/updatecart.php',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function (response) {
+                if (response && response[productId]) {
+                    quantityElement.text(response[productId].quantity);
+                    // Update total price or any other UI elements
+                    $('#show-total-price').text(response.total_price);
+                    $('#show-total-unit-price-' + productId).text(response[productId].total_price);
+                    if (parseFloat(response.total_price) > walletAmount) {
+                        walletOption.disabled = true;
                     } else {
-                        console.error('Invalid or empty response:', response);
-                        sessionStorage.setItem('showAlert', 'Failed to update cart item');
+                        walletOption.disabled = false;
                     }
-                })
-                .catch(error => {
-                    console.error('Error updating cart:', error);
-                    sessionStorage.setItem('showAlert', 'Error updating cart. Please try again.');
-                });
+                } else {
+                    console.error('Invalid or empty response:', response);
+                    sessionStorage.setItem('showAlert', 'Failed to update cart item');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error updating cart:', error);
+                sessionStorage.setItem('showAlert', 'Error updating cart. Please try again.');
+            }
         });
     });
 });

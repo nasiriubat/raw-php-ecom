@@ -7,6 +7,8 @@
     <title>My Ecommerce Store</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <link rel="stylesheet" href="./assets/style.css"> <!-- Assuming you have a separate CSS file -->
 </head>
 
@@ -31,7 +33,7 @@
                     if (isAdmin()) { ?>
                         <a href="./admin/index.php">Dashboard</a>
                     <?php } else { ?>
-                        <a href="./customer/profile.php">Profile</a>
+                        <a href="./customer/profile.php">My Profile</a>
                     <?php } ?>
                     <a href="./customer/orders.php">My Orders</a>
                     <a href="logout.php">Logout</a>

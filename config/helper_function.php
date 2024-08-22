@@ -57,13 +57,13 @@ function getAllByID($conn, $table, $fieldName, $searchId, $order = 'DESC', $orde
 */
 
 // get single
-function getById($conn, $table, $id)
+function getById($conn, $table, $id,$field = 'id')
 {
     // Sanitize input
     $table = mysqli_real_escape_string($conn, $table);
     $id = (int) $id;
 
-    $sql = "SELECT * FROM `$table` WHERE `id` = $id LIMIT 1";
+    $sql = "SELECT * FROM `$table` WHERE `$field` = $id LIMIT 1";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
