@@ -269,6 +269,7 @@ function getCurrentUser()
     }
 }
 
+
 function saveImage($folderName, $file)
 {
     $folderName = '../uploads/' . $folderName;
@@ -555,6 +556,10 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
     // $stmt->bind_param("disssss", $totalPrice, $userId, $orderDetailsJson, $refNo, $payment_method, $userDetailsJson, $date);
     $newData = createData($conn, 'orders', $data);
     if ($newData) {
+        if($payment_method == 'wallet'){
+            $wallet = getById($conn,'wallet',getCurrentUser()['id'],'user_id');
+            $update_wallet = updateById($conn,'wallet',$wallet['id'],['amount'=>$wallet['amount']-$totalPrice]);
+        }
         // Clear the cart after successful order
         unset($_SESSION['cart']);
         return true;

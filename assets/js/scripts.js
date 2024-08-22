@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const showAlert = sessionStorage.getItem('showAlert');
     if (showAlert) {
         Toastify({
@@ -12,6 +12,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }).showToast();
         sessionStorage.removeItem('showAlert');
     }
+    
 });
 
-console.log('lololo')
+// Function to toggle dropdown visibility
+function toggleDropdown() {
+    var dropdown = document.querySelector('.dropdown');
+    dropdown.classList.toggle('show');
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function (event) {
+    if (!event.target.matches('.toggle-btn ')) {
+        var dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(function (dropdown) {
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            }
+        });
+    }
+}
+

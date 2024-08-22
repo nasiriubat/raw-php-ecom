@@ -1,19 +1,19 @@
 $(document).ready(function () {
+    //hide-show wallet start
+    const walletOption = document.getElementById('wallet');
+    const walletAmount = parseFloat(walletOption.dataset.wallet);
+    const totalPrice = parseFloat(document.getElementById('show-total-price').textContent);
+    if (totalPrice > walletAmount) {
+        walletOption.disabled = true;
+    }
+    //end
     $('.plus-btn, .minus-btn').on('click', function () {
         const cartItem = $(this).closest('.cart-item');
         const productId = cartItem.data('product-id');
         const quantityElement = cartItem.find('.quantity');
         let quantity = parseInt(quantityElement.text());
 
-        //hide-show wallet start
-        const walletOption = document.getElementById('wallet');
-        const walletAmount = parseFloat(walletOption.dataset.wallet);
-        const totalPrice = parseFloat(document.getElementById('show-total-price').textContent);
-
-        if (totalPrice > walletAmount) {
-            walletOption.disabled = true;
-        }
-        //end
+        
 
         if ($(this).hasClass('plus-btn')) {
             quantity++;

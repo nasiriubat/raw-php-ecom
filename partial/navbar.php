@@ -21,24 +21,28 @@
             </div>
             <div class="search-bar">
                 <form action="index.php">
-                    <input type="text" value="<?= $searchText??'' ?>" name="search" placeholder="Search...">
+                    <input type="text" value="<?= $searchText ?? '' ?>" name="search" placeholder="Search...">
                     <button type="submit">Search</button>
                 </form>
             </div>
             <div class="navbar-links">
-
+               
                 <a href="cart.php">Cart <sup class="cart-count"><?= getCartProductCount() ?></sup></a>
-                <?php
-                if (isLoggedIn()) {
-                    if (isAdmin()) { ?>
-                        <a href="./admin/index.php">Dashboard</a>
-                    <?php } else { ?>
-                        <a href="./customer/profile.php">My Profile</a>
-                    <?php } ?>
-                    <a href="./customer/orders.php">My Orders</a>
-                    <a href="logout.php">Logout</a>
-                    <?php } else { ?>
-                    <a href="login.php">Login</a>
+                <?php if (isLoggedIn()) { ?>
+                    <div class="dropdown">
+                        <button class="toggle-btn" onclick="toggleDropdown()">My Account</button>
+                        <div class="dropdown-content">
+                            <?php if (isAdmin()) { ?>
+                                <a href="./admin/index.php">Dashboard</a>
+                            <?php } else { ?>
+                                <a href="./customer/profile.php">My Profile</a>
+                            <?php } ?>
+                            <a href="./customer/orders.php">My Orders</a>
+                            <a href="logout.php">Logout</a>
+                        </div>
+                    </div>
+                <?php } else { ?>
+                    <a href="login.php" class="btn">Login</a>
                 <?php } ?>
             </div>
         </div>

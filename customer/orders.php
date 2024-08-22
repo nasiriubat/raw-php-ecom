@@ -14,16 +14,16 @@ $orders = getAllByID($conn, 'orders', 'userId', $user['id']);
 
 if (isset($_GET['cancelOrder'])) {
     $cancel = updateById($conn, 'orders', $_GET['cancelOrder'], ['status' => 'Cancelled']);
-    
-    if($cancel['payment_method'] != 'cash'){
-        $afterCommission = $cancel['total']-(($cancel['total']*10)/100);
-        $commission = ($cancel['total']*10)/100;
+
+    if ($cancel['payment_method'] != 'cash') {
+        $afterCommission = $cancel['total'] - (($cancel['total'] * 10) / 100);
+        $commission = ($cancel['total'] * 10) / 100;
         $udata = [
-            'user_id'=>$user['id'],
-            'amount'=>$afterCommission,
+            'user_id' => $user['id'],
+            'amount' => $afterCommission,
         ];
-        $data = createData($conn,'wallet',$udata);
-        $data = updateById($conn,'orders',$cancel['id'],['commission'=>$commission]);
+        $data = createData($conn, 'wallet', $udata);
+        $data = updateById($conn, 'orders', $cancel['id'], ['commission' => $commission]);
     }
     echo "<script>sessionStorage.setItem('showAlert', 'Order Cancelled!');window.location.href='orders.php';</script>";
 }
@@ -40,8 +40,9 @@ if (isset($_GET['cancelOrder'])) {
                 <tr>
                     <th width="5%">Sl.</th>
                     <th width="15%">Date</th>
-                    <th width="50%">Products</th>
+                    <th width="35%">Products</th>
                     <th width="15%">Total Price</th>
+                    <th width="15%">Payment Method</th>
                     <th width="15%">Action</th>
                 </tr>
             </thead>
@@ -52,17 +53,28 @@ if (isset($_GET['cancelOrder'])) {
                             <td><?= $key + 1 ?></td>
                             <td><?= showDate($order['date']) ?></td>
                             <td>
+                                <ol>
                                 <?php if ($order['order_details']) {
-                                    foreach (json_decode($order['order_details']) as $key => $product) { ?>
-                                        <p><?= $product->name ?> - <?= $product->unit_price ?> BDT/pc - Quantity : <?= $product->quantity ?></p>
+                                    foreach (json_decode($order['order_details']) as $key => $product) {
+                                        if ($product->name == null) {
+                                            continue;
+                                        } ?>
+                                        <li class="text-left"><?= $product->name ?> - <?= $product->unit_price ?> BDT/pc - Quantity : <?= $product->quantity ?>pc</li>
                                 <?php }
                                 } ?>
+                                </ol>
                             </td>
                             <td><?= $order['total'] ?> BDT</td>
+                            <td><?= ucfirst($order['payment_method']) ?> </td>
                             <td class="action-btn">
                                 <?php
                                 if ($order['status'] == 'Cancelled') { ?>
-                                    <span class="btn btn-delete">Cancelled</span>
+                                    <div class="text-center">
+                                        <span class="btn btn-delete">Cancelled</span><br><br>
+                                        <?php if($order['payment_method'] != 'cash'){ ?>
+                                        <span>Refunded <?= $order['total'] - $order['commission'] ?> BDT</span>
+                                        <?php } ?>
+                                    </div>
                                 <?php } else {
                                 ?>
                                     <a class="btn btn-edit" href="orders.php?cancelOrder=<?= $order['id'] ?>">Cancel</a>

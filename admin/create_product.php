@@ -45,7 +45,8 @@ include './partial/header.php';
 <div class="content  profile">
     <div class="top-bar">
         <h2>Create Product</h2>
-        <a href="" class="btn back">Back</a>
+                        <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
+
     </div>
     <form class="custom-form" action="create_product.php" method="post" enctype="multipart/form-data">
         <div class="form-div">

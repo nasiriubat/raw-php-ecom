@@ -57,7 +57,7 @@ $cartItems = showCart();
                     <select name="payment_method" id="payment_method" required>
                         <option value="cash">Cash On Delivery</option>
                         <option value="stripe">Card</option>
-                        <option id="wallet" data-wallet="<?= $wallet_amount['amount'] ?? 0 ?>" value="wallet">Wallet</option>
+                        <option id="wallet" data-wallet="<?= $wallet_amount['amount'] ?? 0 ?>" value="wallet">Wallet (<?= $wallet_amount['amount'] ??0 ?> BDT)</option>
                     </select>
                 </div>
                 <div class="form-group w100">

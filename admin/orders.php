@@ -47,7 +47,7 @@ if (isset($_GET['rejectOrder'])) {
 <div class="content">
     <div class="top-bar">
         <h2>All Orders</h2>
-<a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
+        <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
     </div>
     <div class="main-content">
         <div class="button-area">
@@ -77,12 +77,16 @@ if (isset($_GET['rejectOrder'])) {
                         <td><?= json_decode($order['user_details'])->address ?></td>
                         <td><?= json_decode($order['user_details'])->phone ?></td>
                         <td><?= $order['total'] ?> BDT</td>
-                        <td><?=  showDate($order['date']) ?></td>
+                        <td><?= showDate($order['date']) ?></td>
                         <td><?= $order['status'] ?></td>
                         <td class="action-btn">
                             <a class="btn btn-view" href="order_details.php?id=<?= $order['id'] ?>">View</a>
-                            <a class="btn btn-edit" href="orders.php?acceptOrder=<?= $order['id'] ?>">Accept</a>
-                            <a class="btn btn-delete" href="orders.php?rejectOrder=<?= $order['id'] ?>">Reject</a>
+                            <?php if (($order['status'] != 'Rejected')) {
+                                if (($order['status'] != 'Accepted')) { ?>
+                                    <a class="btn btn-edit" href="orders.php?acceptOrder=<?= $order['id'] ?>">Accept</a>
+                                    <a class="btn btn-delete" href="orders.php?rejectOrder=<?= $order["id"] ?>">Reject</a>
+                            <?php }
+                            } ?>
                         </td>
                     </tr>
                 <?php } ?>
