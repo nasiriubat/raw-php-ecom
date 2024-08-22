@@ -17,7 +17,7 @@
             <a href="profile.php">
             <?php
                 $userData = getById($conn,'user',getCurrentUser()['id']);
-                $image = $userData['image'] ? './'.$userData['image']: './assets/images/margot.jpg';
+                $image = $userData['image'] ? './'.$userData['image']: './../assets/images/margot.jpg';
                  ?>
                 <img class="img profile-img" src="<?= $image ?>" alt="profile-img">            </a>
             <a href="../logout.php"><button class="btn logout-btn">Logout</button></a>

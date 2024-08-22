@@ -55,6 +55,7 @@ $cartItems = showCart();
                     <select name="payment_method" id="payment_method" required>
                         <option value="cash">Cash On Delivery</option>
                         <option value="stripe">Card</option>
+                        <option value="wallet">Wallet</option>
                     </select>
                 </div>
                 <div class="form-group w100">

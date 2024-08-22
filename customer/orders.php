@@ -1,6 +1,7 @@
 <?php
 include '../config/db_connect.php';
 include '../config/helper_function.php';
+include './partial/header.php';
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
@@ -8,80 +9,69 @@ if (!isLoggedIn()) {
 // if (!isCustomer()) {
 //     echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
 // }
-include './partial/header.php' ?>
+$user = getCurrentUser();
+$orders = getAllByID($conn, 'orders', 'userId', $user['id']);
 
+if (isset($_GET['cancelOrder'])) {
+    $cancel = updateById($conn, 'orders', $_GET['cancelOrder'], ['status' => 'Cancelled']);
+    
+    if($cancel['payment_method'] != 'cash'){
+        $afterCommission = $cancel['total']-(($cancel['total']*10)/100);
+        $commission = ($cancel['total']*10)/100;
+        $udata = [
+            'user_id'=>$user['id'],
+            'amount'=>$afterCommission,
+        ];
+        $data = createData($conn,'wallet',$udata);
+        $data = updateById($conn,'orders',$cancel['id'],['commission'=>$commission]);
+    }
+    echo "<script>sessionStorage.setItem('showAlert', 'Order Cancelled!');window.location.href='orders.php';</script>";
+}
+?>
 <div class="content">
     <div class="top-bar">
         <h2>All Orders</h2>
-<a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
+        <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
     </div>
     <div class="main-content">
-        <div class="button-area">
-            <a class="btn btn-all" href="/">All Orders</a>
-            <a class="btn btn-create" href="/">Pending Orders</a>
-            <a class="btn btn-success" href="/">Completed Orders</a>
-            <a class="btn btn-cancel" href="/">Cancelled Orders</a>
-        </div>
+
         <table class="custom-table">
             <thead>
                 <tr>
                     <th width="5%">Sl.</th>
-                    <th width="20%">Customer Name</th>
-                    <th width="20%">Address</th>
-                    <th width="20%">Email</th>
+                    <th width="15%">Date</th>
+                    <th width="50%">Products</th>
                     <th width="15%">Total Price</th>
-                    <th width="20%">Action</th>
+                    <th width="15%">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Nishat Tasnim</td>
-                    <td>Uttara, Dhaka</td>
-                    <td>customer@example.com</td>
-                    <td>20$</td>
-                    <td class="action-btn">
-                        <a class="btn btn-view" href="/">View</a>
-                        <a class="btn btn-edit" href="/">Edit</a>
-                        <a class="btn btn-delete" href="/">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Nishat Tasnim</td>
-                    <td>Uttara, Dhaka</td>
-                    <td>customer@example.com</td>
-                    <td>10$</td>
-                    <td class="action-btn">
-                        <a class="btn btn-view" href="/">View</a>
-                        <a class="btn btn-edit" href="/">Edit</a>
-                        <a class="btn btn-delete" href="/">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Nishat Tasnim</td>
-                    <td>Uttara, Dhaka</td>
-                    <td>customer@example.com</td>
-                    <td>5$</td>
-                    <td class="action-btn">
-                        <a class="btn btn-view" href="/">View</a>
-                        <a class="btn btn-edit" href="/">Edit</a>
-                        <a class="btn btn-delete" href="/">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Nishat Tasnim</td>
-                    <td>Uttara, Dhaka</td>
-                    <td>customer@example.com</td>
-                    <td>10$</td>
-                    <td class="action-btn">
-                        <a class="btn btn-view" href="/">View</a>
-                        <a class="btn btn-edit" href="/">Edit</a>
-                        <a class="btn btn-delete" href="/">Delete</a>
-                    </td>
-                </tr>
+                <?php if ($orders) {
+                    foreach ($orders as $key => $order) { ?>
+                        <tr>
+                            <td><?= $key + 1 ?></td>
+                            <td><?= showDate($order['date']) ?></td>
+                            <td>
+                                <?php if ($order['order_details']) {
+                                    foreach (json_decode($order['order_details']) as $key => $product) { ?>
+                                        <p><?= $product->name ?> - <?= $product->unit_price ?> BDT/pc - Quantity : <?= $product->quantity ?></p>
+                                <?php }
+                                } ?>
+                            </td>
+                            <td><?= $order['total'] ?> BDT</td>
+                            <td class="action-btn">
+                                <?php
+                                if ($order['status'] == 'Cancelled') { ?>
+                                    <span class="btn btn-delete">Cancelled</span>
+                                <?php } else {
+                                ?>
+                                    <a class="btn btn-edit" href="orders.php?cancelOrder=<?= $order['id'] ?>">Cancel</a>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                <?php }
+                } ?>
+
             </tbody>
         </table>
     </div>

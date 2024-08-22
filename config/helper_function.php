@@ -23,6 +23,30 @@ function getAll($conn, $table, $order = 'DESC', $orderBy = 'id')
     return $data;
 }
 
+function getAllByID($conn, $table, $fieldName, $searchId, $order = 'DESC', $orderBy = 'id')
+{
+    // Sanitize input
+    $table = mysqli_real_escape_string($conn, $table);
+    $fieldName = mysqli_real_escape_string($conn, $fieldName);
+    $searchId = mysqli_real_escape_string($conn, $searchId);
+    $order = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
+    $orderBy = mysqli_real_escape_string($conn, $orderBy);
+
+    // Build the SQL query
+    $sql = "SELECT * FROM `$table` WHERE `$fieldName` = '$searchId' ORDER BY `$orderBy` $order";
+    $result = $conn->query($sql);
+
+    $data = [];
+    if ($result && $result->num_rows > 0) {
+        // Fetch all rows into an array
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+    return $data;
+}
+
+
 
 //------use------
 /*
@@ -510,9 +534,10 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
 
 
     $data = [
-        'userId' =>  0,
+        'userId' =>  getCurrentUser()['id'],
         'status' =>  'Pending',
         'total' => $totalPrice,
+        'commission' => $totalPrice,
         'order_details' => json_encode($orderDetails),
         // 'ref_no' => uniqid('order_'),
         'ref_no' => $ref_no,
