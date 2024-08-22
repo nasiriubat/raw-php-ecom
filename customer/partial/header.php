@@ -15,8 +15,11 @@
         </div>
         <div class="nav-right">
             <a href="profile.php">
-                <img class="img profile-img" src="../admin/assets/images/margot.jpg" alt="profile-img">
-            </a>
+            <?php
+                $userData = getById($conn,'user',getCurrentUser()['id']);
+                $image = $userData['image'] ? './'.$userData['image']: './assets/images/margot.jpg';
+                 ?>
+                <img class="img profile-img" src="<?= $image ?>" alt="profile-img">            </a>
             <a href="../logout.php"><button class="btn logout-btn">Logout</button></a>
 
         </div>

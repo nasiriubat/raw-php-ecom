@@ -1,10 +1,27 @@
 <?php
+include '../config/db_connect.php';
+include '../config/helper_function.php';
+
+$customers = getAll($conn, 'user');
+if (isset($_GET['id'])) {
+    $customer_id = intval($_GET['id']);
+
+    $currentProduct = getById($conn, 'user', $customer_id);
+    $currentImagePath = $currentProduct['image'];
+    $deleted = deleteById($conn, 'user', $customer_id,'users');
+
+    if ($deleted) {
+        echo "<script>sessionStorage.setItem('showAlert', 'Customer deleted successfully!');window.location.href='customer.php';</script>";
+    } else {
+        echo "<script>sessionStorage.setItem('showAlert', 'Failed to delete Customer. Please try again.');window.location.href='customer.php';</script>";
+    }
+}
 include './partial/header.php';
 ?>
 <div class="content">
     <div class="top-bar">
         <h2>All Customers</h2>
-<a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
+        <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
     </div>
     <div class="main-content">
 
@@ -20,54 +37,31 @@ include './partial/header.php';
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Nishat Tasnim</td>
-                    <td>Uttara, Dhaka</td>
-                    <td>customer@example.com</td>
-                    <td>+880 1649865221</td>
-                    <td class="action-btn">
-                        <a class="btn btn-view" href="/">View</a>
-                        <a class="btn btn-edit" href="/">Edit</a>
-                        <a class="btn btn-delete" href="/">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Nishat Tasnim</td>
-                    <td>Uttara, Dhaka</td>
-                    <td>customer@example.com</td>
-                    <td>+880 1649865221</td>
-                    <td class="action-btn">
-                        <a class="btn btn-view" href="/">View</a>
-                        <a class="btn btn-edit" href="/">Edit</a>
-                        <a class="btn btn-delete" href="/">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Nishat Tasnim</td>
-                    <td>Uttara, Dhaka</td>
-                    <td>customer@example.com</td>
-                    <td>+880 1649865221</td>
-                    <td class="action-btn">
-                        <a class="btn btn-view" href="/">View</a>
-                        <a class="btn btn-edit" href="/">Edit</a>
-                        <a class="btn btn-delete" href="/">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Nishat Tasnim</td>
-                    <td>Uttara, Dhaka</td>
-                    <td>customer@example.com</td>
-                    <td>+880 1649865221</td>
-                    <td class="action-btn">
-                        <a class="btn btn-view" href="/">View</a>
-                        <a class="btn btn-edit" href="/">Edit</a>
-                        <a class="btn btn-delete" href="/">Delete</a>
-                    </td>
-                </tr>
+                <?php if ($customers) {
+                    foreach ($customers as $key => $customer) {
+                        if ($customer['role'] != 'admin') {
+
+                ?>
+                            <tr>
+                                <td><?= $key + 1 ?></td>
+                                <td><?= $customer['name'] ?></td>
+                                <td><?= $customer['address'] ?></td>
+                                <td><?= $customer['email'] ?></td>
+                                <td><?= $customer['phone'] ?></td>
+                                <td class="action-btn">
+                                    <!-- <a class="btn btn-view" href="/">View</a>
+                                <a class="btn btn-edit" href="/">Edit</a> -->
+                                    <a class="btn btn-delete" href="./customers.php?id=<?= $customer['id'] ?>">Delete</a>
+
+                                </td>
+                            </tr>
+                <?php   
+                 }
+                    }
+                }else{
+                   echo('No available data');
+                }
+                ?>
             </tbody>
         </table>
     </div>

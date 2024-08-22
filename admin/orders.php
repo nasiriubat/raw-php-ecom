@@ -1,7 +1,7 @@
 <?php
-include './partial/header.php';
 include '../config/db_connect.php';
 include '../config/helper_function.php';
+include './partial/header.php';
 
 $orders = getAll($conn, 'orders');
 

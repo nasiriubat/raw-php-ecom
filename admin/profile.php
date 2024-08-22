@@ -1,4 +1,45 @@
 <?php
+
+include '../config/db_connect.php';
+include '../config/helper_function.php';
+
+if (!isLoggedIn()) {
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
+}
+
+if (!isAdmin()) {
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
+}
+$userData = getById($conn,'user',getCurrentUser()['id']);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $currentImagePath = './' . $userData['image'];
+    $imagePath = '';
+
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        if (file_exists($currentImagePath)) {
+            unlink($currentImagePath);
+        }
+        $imagePath = saveImage('users', $_FILES['image']);
+    } else {
+        $imagePath = $currentImagePath;
+    }
+    $newData = [
+        'name'=>$_POST['name'],
+        'email'=>$_POST['email'],
+        'phone'=>$_POST['phone'],
+        'address'=>$_POST['address'],
+        'image'=>$imagePath,
+        'password'=>md5($_POST['address']),
+    ];
+    $data = updateById($conn, 'user',$userData['id'],$newData);
+    if ($data) {
+        echo "<script>sessionStorage.setItem('showAlert', 'Update successful!');window.location.href='profile.php';</script>";
+    } else {
+        echo "<script>sessionStorage.setItem('showAlert', 'Update Failed, please try again.');window.location.href='profile.php';</script>";
+    }
+}
 include './partial/header.php';
 ?>
 <div class="content  profile">
@@ -6,27 +47,27 @@ include './partial/header.php';
         <h2>Profile</h2>
         <a href="" class="btn back">Back</a>
     </div>
-    <form class="custom-form" action="profile_update.php" method="post" enctype="multipart/form-data">
+    <form class="custom-form" action="profile.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <div class="form-div">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" required value="<?= $userData['name'] ?>">
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone" required>
+                <input type="text" id="phone" name="phone" value="<?= $userData['phone'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required>
+                <input type="text" id="address" name="address" value="<?= $userData['address'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <input autocomplete="off" type="password" id="password" name="password" >
             </div>
             <div class="form-group">
                 <label for="image">Profile Image:</label>

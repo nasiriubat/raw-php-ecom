@@ -1,4 +1,6 @@
 <?php
+include '../config/db_connect.php';
+include '../config/helper_function.php';
 include './partial/header.php';
 ?>
         <div class="content">

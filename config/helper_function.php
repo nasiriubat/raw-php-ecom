@@ -64,11 +64,11 @@ if ($row) {
 
 */
 
-function deleteById($conn, $table, $id)
+function deleteById($conn, $table, $id,$path='products')
 {
     $table = mysqli_real_escape_string($conn, $table);
     $id = (int) $id;
-    $currentProduct = getById($conn, 'product', $id);
+    $currentProduct = getById($conn, $path, $id);
     $currentImagePath = $currentProduct['image'];
     if (file_exists($currentImagePath)) {
         unlink($currentImagePath);
@@ -177,9 +177,10 @@ function login($conn, $email, $password)
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        var_dump($user['password']);
         $hashed_password = md5($password);
+        
         if ($hashed_password === $user['password']) {
+        // if (1) {
             unset($user['password']);
             $_SESSION['user'] = $user;
             return $user;
