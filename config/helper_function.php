@@ -57,7 +57,7 @@ function getAllByID($conn, $table, $fieldName, $searchId, $order = 'DESC', $orde
 */
 
 // get single
-function getById($conn, $table, $id,$field = 'id')
+function getById($conn, $table, $id, $field = 'id')
 {
     // Sanitize input
     $table = mysqli_real_escape_string($conn, $table);
@@ -88,7 +88,7 @@ if ($row) {
 
 */
 
-function deleteById($conn, $table, $id,$path='products')
+function deleteById($conn, $table, $id, $path = 'products')
 {
     $table = mysqli_real_escape_string($conn, $table);
     $id = (int) $id;
@@ -200,9 +200,9 @@ function login($conn, $email, $password)
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         $hashed_password = md5($password);
-        
+
         if ($hashed_password === $user['password']) {
-        // if (1) {
+            // if (1) {
             unset($user['password']);
             $_SESSION['user'] = $user;
             return $user;
@@ -538,8 +538,8 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
     $data = [
         'userId' =>  getCurrentUser()['id'],
         'status' =>  'Pending',
-        'total' => $totalPrice+deliverCharge(),
-        'commission' => $totalPrice+deliverCharge(),
+        'total' => $totalPrice + deliverCharge(),
+        'commission' => $totalPrice + deliverCharge(),
         'order_details' => json_encode($orderDetails),
         // 'ref_no' => uniqid('order_'),
         'ref_no' => $ref_no,
@@ -558,9 +558,9 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
     // $stmt->bind_param("disssss", $totalPrice, $userId, $orderDetailsJson, $refNo, $payment_method, $userDetailsJson, $date);
     $newData = createData($conn, 'orders', $data);
     if ($newData) {
-        if($payment_method == 'wallet'){
-            $wallet = getById($conn,'wallet',getCurrentUser()['id'],'user_id');
-            $update_wallet = updateById($conn,'wallet',$wallet['id'],['amount'=>$wallet['amount']-$totalPrice]);
+        if ($payment_method == 'wallet') {
+            $wallet = getById($conn, 'wallet', getCurrentUser()['id'], 'user_id');
+            $update_wallet = updateById($conn, 'wallet', $wallet['id'], ['amount' => $wallet['amount'] - $totalPrice]);
         }
         // Clear the cart after successful order
         unset($_SESSION['cart']);
@@ -578,7 +578,8 @@ function showDate($date)
     return $formattedDate;
 }
 
-function riderInfo($conn) {
+function riderInfo($conn)
+{
     // Sanitize the input
     $rider_id = intval(getCurrentUser()['id']);
 
@@ -604,7 +605,71 @@ function riderInfo($conn) {
     ];
 }
 
- function deliverCharge(){
+function deliverCharge()
+{
     return 60;
+}
+
+
+function dashboardData($conn)
+{
+    // Query 1: General orders and most used payment method statistics
+    $sql_orders = "SELECT 
+                        COUNT(*) as total_orders, 
+                        SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) as pending_orders,
+                        SUM(CASE WHEN status = 'Delivered' THEN 1 ELSE 0 END) as completed_orders,
+                        payment_method,
+                        COUNT(payment_method) as method_count
+                   FROM orders
+                   GROUP BY payment_method
+                   ORDER BY method_count DESC
+                   LIMIT 1";
+
+    // Query 2: Total earnings from delivered orders
+    $sql_total_earnings = "SELECT 
+                            SUM(total) as total_earnings
+                            FROM orders 
+                            WHERE status = 'Delivered'";
+
+    // Query 3: Total commission from cancelled orders
+    $sql_total_commission = "SELECT 
+                            SUM(commission) as total_commission
+                            FROM orders 
+                            WHERE status = 'Cancelled'";
+
+    // Query 4: User statistics (customers and riders)
+    $sql_customers_riders = "SELECT 
+                                SUM(CASE WHEN role = 'customer' THEN 1 ELSE 0 END) as total_customers,
+                                SUM(CASE WHEN role = 'rider' THEN 1 ELSE 0 END) as total_riders
+                             FROM user";
+
+    // Execute the queries
+    $result_orders = $conn->query($sql_orders);
+    $result_total_earnings = $conn->query($sql_total_earnings);
+    $result_total_commission = $conn->query($sql_total_commission);
+    $result_customers_riders = $conn->query($sql_customers_riders);
+
+    // Check for errors in SQL query execution
+    if (!$result_orders || !$result_total_earnings || !$result_total_commission || !$result_customers_riders) {
+        die("Query failed: " . $conn->error);
+    }
+
+    // Fetch results
+    $orders_data = $result_orders->fetch_assoc();
+    $total_earnings_data = $result_total_earnings->fetch_assoc();
+    $total_commission_data = $result_total_commission->fetch_assoc();
+    $users_data = $result_customers_riders->fetch_assoc();
+
+    // Return the results in an associative array
+    return [
+        'total_orders' => $orders_data['total_orders'] ?? 0,
+        'pending_orders' => $orders_data['pending_orders'] ?? 0,
+        'completed_orders' => $orders_data['completed_orders'] ?? 0,
+        'total_earnings' => $total_earnings_data['total_earnings'] ?? 0,
+        'total_commission' => $total_commission_data['total_commission'] ?? 0,
+        'most_used_payment_method' => $orders_data['payment_method'] ?? 'N/A',
+        'total_customers' => $users_data['total_customers'] ?? 0,
+        'total_riders' => $users_data['total_riders'] ?? 0
+    ];
 }
 

@@ -14,42 +14,16 @@ if (!isAdmin()) {
 $orders = getAll($conn, 'orders');
 
 
-if (isset($_GET['pending'])) {
+if (isset($_GET['orderByStatus'])) {
     $pendingOrder = [];
     foreach ($orders as $order) {
-        if ($order['status'] == 'Pending') {
+        if ($order['status'] == ucfirst($_GET['orderByStatus'])) {
             $pendingOrder[] = $order;
         }
     }
     $orders = $pendingOrder;
 }
-if (isset($_GET['cancelled'])) {
-    $pendingOrder = [];
-    foreach ($orders as $order) {
-        if ($order['status'] == 'Cancelled') {
-            $pendingOrder[] = $order;
-        }
-    }
-    $orders = $pendingOrder;
-}
-if (isset($_GET['completed'])) {
-    $completedOrder = [];
-    foreach ($orders as $order) {
-        if ($order['status'] == 'Delivered') {
-            $completedOrder[] = $order;
-        }
-    }
-    $orders = $completedOrder;
-}
-if (isset($_GET['rejected'])) {
-    $rejectedOrder = [];
-    foreach ($orders as $order) {
-        if ($order['status'] == 'Rejected') {
-            $rejectedOrder[] = $order;
-        }
-    }
-    $orders = $rejectedOrder;
-}
+
 
 if (isset($_GET['acceptOrder'])) {
     $accept = updateById($conn, 'orders', $_GET['acceptOrder'], ['status' => 'Accepted']);
@@ -65,30 +39,51 @@ if (isset($_GET['rejectOrder'])) {
     <div class="dashboard">
         <div class="boxes">
             <div class="item total-orders">
-                <p>02</p>
+                <p><?= dashboardData($conn)['total_orders'] ?></p>
                 <h3>Total Orders</h3>
             </div>
-            <div class="item pending-orders">
-                <p>02</p>
-                <h3>Pending Orders</h3>
-            </div>
             <div class="item completed-orders">
-                <p>02</p>
+                <p><?= dashboardData($conn)['completed_orders'] ?></p>
                 <h3>Completed Orders</h3>
             </div>
-            <div class="item total-customers">
-                <p>02</p>
-                <h3>Total Customers</h3>
+            <div class="item pending-orders">
+                <p><?= dashboardData($conn)['total_earnings'] ?> BDT</p>
+                <h3>Total Earning</h3>
             </div>
+            <div class="item total-customers">
+                <p><?= number_format(dashboardData($conn)['total_commission'],2) ?> BDT</p>
+                <h3>Total Commission</h3>
+            </div>
+        </div>
+        <div class="boxes">
+            <div class="item completed-orders">
+                <p><?= ucfirst(dashboardData($conn)['most_used_payment_method']) ?></p>
+                <h3>Popular Payment Method</h3>
+            </div>
+            <div class="item total-customers">
+                <p><?= dashboardData($conn)['pending_orders'] ?></p>
+                <h3>Pending Order</h3>
+            </div>
+            <div class="item total-orders">
+                <p><?= dashboardData($conn)['total_riders'] ?></p>
+                <h3>Total Riders</h3>
+            </div>
+            <div class="item pending-orders">
+                <p><?= dashboardData($conn)['total_customers'] ?></p>
+                <h3>Total Customer</h3>
+            </div>
+
+
+
         </div>
         <hr>
         <div class="main-content">
             <div class="button-area">
                 <a class="btn btn-all" href="index.php">All Orders</a>
-                <a class="btn btn-create" href="index.php?pending">Pending Orders</a>
-                <a class="btn btn-success" href="index.php?completed">Completed Orders</a>
-                <a class="btn btn-cancel" href="index.php?rejected">Rejected Orders</a>
-                <a class="btn btn-create" href="index.php?cancelled">Cancelled Orders</a>
+                <a class="btn btn-create" href="index.php?orderByStatus=pending">Pending Orders</a>
+                <a class="btn btn-success" href="index.php?orderByStatus=delivered">Completed Orders</a>
+                <a class="btn btn-cancel" href="index.php?orderByStatus=rejected">Rejected Orders</a>
+                <a class="btn btn-create" href="index.php?orderByStatus=cancelled">Cancelled Orders</a>
             </div>
             <table class="custom-table">
                 <thead>
@@ -130,7 +125,7 @@ if (isset($_GET['rejectOrder'])) {
                         </tr> <?php } ?>
                 </tbody>
             </table>
-        </div>  
+        </div>
     </div>
 </div>
 </div>

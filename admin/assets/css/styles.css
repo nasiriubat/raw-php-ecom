@@ -287,11 +287,11 @@ body {
 }
 
 .dashboard .boxes .pending-orders {
-    background-color: #dc3545;
+    background-color: #e65a68;
 }
 
 .dashboard .boxes .completed-orders {
-    background-color: #198754;
+    background-color: #32d187f1;
 }
 
 .dashboard .boxes .total-customers {
