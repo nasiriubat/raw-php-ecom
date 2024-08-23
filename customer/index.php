@@ -9,11 +9,13 @@ if (!isLoggedIn()) {
 if (!isCustomer()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
 }
- include './partial/header.php' ?>
+$user = getCurrentUser();
+$orders = getAllByID($conn, 'orders', 'userId', $user['id']);
+include './partial/header.php' ?>
 <div class="content">
     <div class="top-bar">
         <h2>Dashborad</h2>
-                        <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
+        <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
 
     </div>
     <div class="dashboard">
@@ -23,46 +25,25 @@ if (!isCustomer()) {
                 <thead>
                     <tr>
                         <th width="10%">Order ID</th>
-                        <th width="25%">Cutomer Name</th>
-                        <th width="25%">Cutomer Address</th>
-                        <th width="15%">Total amount</th>
+                        <th width="25%">Order Date</th>
+                        <th width="25%">Total Price</th>
                         <th width="15%">Status</th>
-                        <th width="15%">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Nishat Tasnim</td>
-                        <td>Uttara, Dhaka</td>
-                        <td>200$</td>
-                        <td>Pending</td>
-                        <td><a class="btn btn-view" href="/">View</a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Nishat Tasnim</td>
-                        <td>Uttara, Dhaka</td>
-                        <td>200$</td>
-                        <td>Pending</td>
-                        <td><a class="btn btn-view" href="/">View</a></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Nishat Tasnim</td>
-                        <td>Uttara, Dhaka</td>
-                        <td>200$</td>
-                        <td>Pending</td>
-                        <td><a class="btn btn-view" href="/">View</a></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Nishat Tasnim</td>
-                        <td>Uttara, Dhaka</td>
-                        <td>200$</td>
-                        <td>Pending</td>
-                        <td><a class="btn btn-view" href="/">View</a></td>
-                    </tr>
+                    <?php if ($orders) {
+                        foreach ($orders as $key=>$order) {
+                    ?>
+                            <tr>
+                                <td><?= $key+1 ?></td>
+                                <td><?= showDate($order['date']) ?></td>
+                                <td><?= $order['total'] ?> BDT</td>
+                                <td><span class="btn <?= $order['status'] == 'Accepted' ? 'btn-success' : ($order['status'] == 'Pending' ? 'btn-view' :'btn-delete' ) ?>"><?= ucfirst($order['status']) ?></span></td>
+
+                            </tr>
+                            <?php } }else{?> <tr><td colspan="4">No Data Found</td></tr> <?php }?>
+
+
 
 
                 </tbody>

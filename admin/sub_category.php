@@ -71,10 +71,8 @@ include './partial/header.php';
                                 </td>
                             </tr>
 
-                    <?php
-                        }
-                    }
-                    ?>
+                            <?php } }else{?> <tr><td colspan="4">No Data Found</td></tr> <?php }?>
+
                 </tbody>
 
             </table>

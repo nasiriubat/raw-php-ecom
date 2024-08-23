@@ -10,8 +10,8 @@
 
 <body>
     <div class="register-container">
-        <h2>Register</h2>
-        <form action="register.php" method="POST">
+        <h2>Rider Register</h2>
+        <form action="delivery_register.php" method="POST">
             <input type="text" name="name" placeholder="Name" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="tel" name="phone" placeholder="Phone" required>
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'email' => $email,
         'phone' => $phone,
         'address' => $address,
-        'role' => 'customer',
+        'role' => 'rider',
         'password' => md5($password),
     ];
 

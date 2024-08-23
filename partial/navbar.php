@@ -25,15 +25,17 @@
                     <button type="submit">Search</button>
                 </form>
             </div>
-            <div class="navbar-links">
-               
-                <a href="cart.php">Cart <sup class="cart-count"><?= getCartProductCount() ?></sup></a>
+            <div class="navbar-links ">
+
+                <a class="cart-btn" href="cart.php">Cart <sup class="cart-count"><?= getCartProductCount() ?></sup></a>
                 <?php if (isLoggedIn()) { ?>
                     <div class="dropdown">
                         <button class="toggle-btn" onclick="toggleDropdown()">My Account</button>
                         <div class="dropdown-content">
                             <?php if (isAdmin()) { ?>
                                 <a href="./admin/index.php">Dashboard</a>
+                            <?php } elseif (isRider()) { ?>
+                                <a href="./rider/index.php">Dashboard</a>
                             <?php } else { ?>
                                 <a href="./customer/profile.php">My Profile</a>
                             <?php } ?>

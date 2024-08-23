@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $payment_method = $_POST['payment_method'];
-    $ref_no = $_POST['ref_no'];
+    $ref_no = $_POST['ref_no'] ?? 'cash';
     if (createOrder($conn, $name, $email, $phone, $address, $payment_method,$ref_no)) {
         echo "<script>sessionStorage.setItem('showAlert', 'Order placed successfully!'); window.location.href='index.php';</script>";
     } else {
@@ -108,6 +108,10 @@ $cartItems = showCart();
                     </div>
             <?php }
             } ?>
+            <div class="d-flex delivery-chrage">
+                <p>Delivery Charge : </p>
+                <p ><span id="delivery-charge"><?= deliverCharge() ?> </span>BDT</p>
+            </div>
             <div class="total-div d-flex">
                 <h2>Total Price</h2>
                 <p> <span id="show-total-price" ><?= $cartItems['total_price'] ?></span> <b>BDT</b></p>

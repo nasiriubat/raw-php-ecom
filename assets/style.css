@@ -57,13 +57,19 @@ body {
 .search-bar form input:focus {
     outline: none;
 }
+.navbar-links{
+    display: flex;
+    align-items: center;
+}
 
 .navbar-links a {
     color: #fff;
     text-decoration: none;
     margin-left: 20px;
 }
-
+.cart-btn{
+    margin-right: 15px;
+}
 .navbar-links a:hover {
     color: #007bff;
 }
@@ -214,6 +220,8 @@ body {
 }
 
 .register-div {
+    display: flex;
+    justify-content: space-between;
     text-align: right;
 }
 
@@ -222,6 +230,10 @@ body {
     text-decoration: none;
     background-color: #b3a700;
     color: white;
+
+}
+.register-div a:first-child{
+    background-color: #f85606;
 
 }
 
@@ -647,4 +659,8 @@ padding: 5px 10px;
 .dropdown .toggle-btn:hover {
     background-color: #45a049;
 }
-
+.delivery-chrage{
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0px 5px !important;
+}

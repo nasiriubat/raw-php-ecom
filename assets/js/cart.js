@@ -3,6 +3,9 @@ $(document).ready(function () {
     const walletOption = document.getElementById('wallet');
     const walletAmount = parseFloat(walletOption.dataset.wallet);
     const totalPrice = parseFloat(document.getElementById('show-total-price').textContent);
+    const deliveryChrage = parseFloat(document.getElementById('delivery-charge').textContent);
+    $('#show-total-price').text(totalPrice+deliveryChrage );
+
     if (totalPrice > walletAmount) {
         walletOption.disabled = true;
     }
@@ -38,7 +41,7 @@ $(document).ready(function () {
                 if (response && response[productId]) {
                     quantityElement.text(response[productId].quantity);
                     // Update total price or any other UI elements
-                    $('#show-total-price').text(response.total_price);
+                    $('#show-total-price').text(response.total_price +deliveryChrage);
                     $('#show-total-unit-price-' + productId).text(response[productId].total_price);
                     if (parseFloat(response.total_price) > walletAmount) {
                         walletOption.disabled = true;

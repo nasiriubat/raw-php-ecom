@@ -5,7 +5,7 @@ include './helper_function.php';
 header('Content-Type: application/json');
 
 
-$totalAmount = showCart()['total_price'];
+$totalAmount = showCart()['total_price'] +deliverCharge();
 
 echo json_encode([
     'total_amount' => $totalAmount * 100,

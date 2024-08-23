@@ -81,8 +81,10 @@ if (isset($_GET['cancelOrder'])) {
                                 <?php } ?>
                             </td>
                         </tr>
-                        <?php } }else{?> <tr><td colspan="6">No Data Found</td></tr> <?php }?>
-
+                <?php }
+                }else{?>
+                     <tr><td colspan=6>No Data Found</td></tr>
+                <?php } ?>
 
             </tbody>
         </table>

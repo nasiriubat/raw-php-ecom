@@ -19,6 +19,7 @@
             <input type="submit" value="Login">
         </form>
         <div class="register-div">
+            <a href="delivery_register.php">Apply for Rider</a>
             <a href="register.php">Sign Up</a>
         </div>
     </div>

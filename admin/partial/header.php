@@ -36,7 +36,7 @@
             <ul>
                 <li><a href="profile.php">Profile</a></li>
                 <li><a href="customers.php">Customers</a></li>
-                <li><a href="orders.php">Orders</a></li>
+                <li><a href="orders.php">My Orders</a></li>
                 <li><a href="categories.php">Categories</a></li>
                 <li><a href="sub_category.php">Sub Categories</a></li>
                 <li><a href="products.php">Products</a></li>

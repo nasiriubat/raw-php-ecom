@@ -164,8 +164,6 @@ function newRegister($conn, $data)
 
     if ($result && $result->fetch_assoc()['count'] == 0) {
         $data['role'] = 'admin';
-    } else {
-        $data['role'] = 'customer';
     }
 
     $escaped_values = array_map(function ($value) use ($conn) {
@@ -244,7 +242,10 @@ function isCustomer()
 {
     return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'customer';
 }
-
+function isRider()
+{
+    return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'rider';
+}
 function getSettings($conn, $key)
 {
     $key = mysqli_real_escape_string($conn, $key);
@@ -537,12 +538,13 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
     $data = [
         'userId' =>  getCurrentUser()['id'],
         'status' =>  'Pending',
-        'total' => $totalPrice,
-        'commission' => $totalPrice,
+        'total' => $totalPrice+deliverCharge(),
+        'commission' => $totalPrice+deliverCharge(),
         'order_details' => json_encode($orderDetails),
         // 'ref_no' => uniqid('order_'),
         'ref_no' => $ref_no,
         'payment_method' => $payment_method,
+        'delivery_charge' => deliverCharge(),
         'user_details' => json_encode([
             'name' => $name,
             'email' => $email,
@@ -575,3 +577,34 @@ function showDate($date)
 
     return $formattedDate;
 }
+
+function riderInfo($conn) {
+    // Sanitize the input
+    $rider_id = intval(getCurrentUser()['id']);
+
+    // Prepare the SQL query
+    $sql = "SELECT 
+                SUM(delivery_charge) as total_earnings, 
+                COUNT(*) as total_delivered_orders 
+            FROM orders 
+            WHERE rider_id = ? 
+            AND status = 'Delivered'";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $rider_id);
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    return [
+        'earning' => $row['total_earnings'] ?? 0,
+        'order' => $row['total_delivered_orders'] ?? 0
+    ];
+}
+
+ function deliverCharge(){
+    return 60;
+}
+
