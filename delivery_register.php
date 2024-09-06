@@ -51,6 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = newRegister($conn, $data_to_insert);
 
     if ($result !== false) {
+        $udata = [
+            'user_id' => $result['id'],
+            'amount' => 0,
+        ];
+        $create_wallet = createData($conn, 'wallet', $udata);
         echo "<script>sessionStorage.setItem('showAlert', 'Registration successful!');window.location.href='login.php';</script>";
     } else {
         echo "<script>sessionStorage.setItem('showAlert', 'Registration failed. Please try again later.');window.location.href='register.php';</script>";
