@@ -28,7 +28,11 @@
             <div class="navbar-links ">
 
                 <a class="cart-btn" href="cart.php">Cart <sup class="cart-count"><?= getCartProductCount() ?></sup></a>
-                <?php if (isLoggedIn()) { ?>
+                <?php if (isLoggedIn()) { 
+                    $user = getCurrentUser();
+                    $wallet_amount = getById($conn,'wallet',$user['id'],'user_id');
+                    
+                    ?>
                     <div class="dropdown">
                         <button class="toggle-btn" onclick="toggleDropdown()">My Account</button>
                         <div class="dropdown-content">
@@ -38,8 +42,9 @@
                                 <a href="./rider/index.php">Dashboard</a>
                             <?php } else { ?>
                                 <a href="./customer/profile.php">My Profile</a>
+                                <a href="./customer/orders.php">My Orders</a>
                             <?php } ?>
-                            <a href="./customer/orders.php">My Orders</a>
+                            <a ><?= $wallet_amount['amount'] ?> ৳</a>
                             <a href="logout.php">Logout</a>
                         </div>
                     </div>

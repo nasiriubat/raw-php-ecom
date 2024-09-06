@@ -47,18 +47,18 @@ if (isset($_GET['rejectOrder'])) {
                 <h3>Completed Orders</h3>
             </div>
             <div class="item pending-orders">
-                <p><?= dashboardData($conn)['total_earnings'] ?> BDT</p>
-                <h3>Total Earning</h3>
+                <p><?= dashboardData($conn)['total_earnings'] ?> </p>
+                <h3>Total Earning (৳)</h3>
             </div>
             <div class="item total-customers">
-                <p><?= number_format(dashboardData($conn)['total_commission'],2) ?> BDT</p>
-                <h3>Total Commission</h3>
+                <p><?= number_format(dashboardData($conn)['total_commission'],2) ?> </p>
+                <h3>Total Commission (৳)</h3>
             </div>
         </div>
         <div class="boxes">
             <div class="item completed-orders">
                 <p><?= ucfirst(dashboardData($conn)['most_used_payment_method']) ?></p>
-                <h3>Popular Payment Method</h3>
+                <h3>Top Payment Method</h3>
             </div>
             <div class="item total-customers">
                 <p><?= dashboardData($conn)['pending_orders'] ?></p>
@@ -106,7 +106,7 @@ if (isset($_GET['rejectOrder'])) {
                                 <td><?= json_decode($order['user_details'])->name ?></td>
                                 <td><?= json_decode($order['user_details'])->address ?></td>
                                 <td><?= json_decode($order['user_details'])->phone ?></td>
-                                <td><?= $order['total'] ?> BDT</td>
+                                <td><?= $order['total'] ?> ৳</td>
                                 <td><?= showDate($order['date']) ?></td>
                                 <td><?= $order['status'] ?></td>
                                 <td class="action-btn">

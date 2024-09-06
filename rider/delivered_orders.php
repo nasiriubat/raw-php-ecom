@@ -47,7 +47,7 @@ $orders = getAllByID($conn, 'orders', 'rider_id', $user['id']);
                                 <td><?= $customerData->name ?> </td>
                                 <td><?= $customerData->phone ?> </td>
                                 <td><?= $customerData->address ?> </td>
-                                <td><?= $order['total'] ?> BDT</td>
+                                <td><?= $order['total'] ?> ৳</td>
                                 <td>
                                   Delivered
                                 </td>

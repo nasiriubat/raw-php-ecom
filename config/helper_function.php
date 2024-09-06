@@ -65,7 +65,7 @@ function getById($conn, $table, $id, $field = 'id')
 
     $sql = "SELECT * FROM `$table` WHERE `$field` = $id LIMIT 1";
     $result = $conn->query($sql);
-
+    
     if ($result->num_rows > 0) {
         // Fetch the row as an associative array
         return $result->fetch_assoc();
@@ -524,6 +524,7 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
     $totalPrice = 0;
 
     foreach ($cart as $productId => $item) {
+        if($productId){
         $orderDetails[] = [
             'product_id' => $productId,
             'name' => $item['name'],
@@ -532,6 +533,7 @@ function createOrder($conn, $name, $email, $phone, $address, $payment_method, $r
             'total_price' => $item['unit_price'] * $item['quantity']
         ];
         $totalPrice += $item['unit_price'] * $item['quantity'];
+    }
     }
 
 
@@ -671,5 +673,15 @@ function dashboardData($conn)
         'total_customers' => $users_data['total_customers'] ?? 0,
         'total_riders' => $users_data['total_riders'] ?? 0
     ];
+}
+function updateOrCreateWallet($conn,$amount)
+{
+    $user = getCurrentUser();
+    $wallet = getById($conn, 'wallet', $user['id'], 'user_id');
+    if($wallet){
+        $update_wallet = updateById($conn, 'wallet', $wallet['id'], ['amount' => $wallet['amount'] + $amount]);
+    }else{
+        $create_wallet = createData($conn, 'wallet', ['user_id'=>$user['id'],'amount' => $amount]);
+    }
 }
 

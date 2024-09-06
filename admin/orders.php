@@ -18,12 +18,9 @@ if (isset($_GET['cancelOrder'])) {
     if ($cancel['payment_method'] != 'cash') {
         $afterCommission = $cancel['total'] - (($cancel['total'] * 10) / 100);
         $commission = ($cancel['total'] * 10) / 100;
-        $udata = [
-            'user_id' => $user['id'],
-            'amount' => $afterCommission,
-        ];
-        $data = createData($conn, 'wallet', $udata);
+        $balance = updateOrCreateWallet($conn,$afterCommission);
         $data = updateById($conn, 'orders', $cancel['id'], ['commission' => $commission]);
+        
     }
     echo "<script>sessionStorage.setItem('showAlert', 'Order Cancelled!');window.location.href='orders.php';</script>";
 }
@@ -59,12 +56,12 @@ if (isset($_GET['cancelOrder'])) {
                                             if ($product->name == null) {
                                                 continue;
                                             } ?>
-                                            <li class="text-left"><?= $product->name ?> - <?= $product->unit_price ?> BDT/pc - Quantity : <?= $product->quantity ?>pc</li>
+                                            <li class="text-left"><?= $product->name ?> - <?= $product->unit_price ?> ৳/pc - Quantity : <?= $product->quantity ?>pc</li>
                                     <?php }
                                     } ?>
                                 </ol>
                             </td>
-                            <td><?= $order['total'] ?> BDT</td>
+                            <td><?= $order['total'] ?> ৳</td>
                             <td><?= ucfirst($order['payment_method']) ?> </td>
                             <td class="action-btn">
                                 <?php
@@ -72,7 +69,7 @@ if (isset($_GET['cancelOrder'])) {
                                     <div class="text-center">
                                         <span class="btn btn-delete">Cancelled</span><br><br>
                                         <?php if ($order['payment_method'] != 'cash') { ?>
-                                            <span>Refunded <?= $order['total'] - $order['commission'] ?> BDT</span>
+                                            <span>Refunded <?= $order['total'] - $order['commission'] ?> ৳</span>
                                         <?php } ?>
                                     </div>
                                 <?php } else {

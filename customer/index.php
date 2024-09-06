@@ -37,7 +37,7 @@ include './partial/header.php' ?>
                             <tr>
                                 <td><?= $key+1 ?></td>
                                 <td><?= showDate($order['date']) ?></td>
-                                <td><?= $order['total'] ?> BDT</td>
+                                <td><?= $order['total'] ?> ৳</td>
                                 <td><span class="btn <?= $order['status'] == 'Accepted' ? 'btn-success' : ($order['status'] == 'Pending' ? 'btn-view' :'btn-delete' ) ?>"><?= ucfirst($order['status']) ?></span></td>
 
                             </tr>

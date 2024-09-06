@@ -69,7 +69,7 @@ include './partial/header.php';
                                     <td><?= $key + 1 ?></td>
                                     <td><?= $product['name'] ?></td>
                                     <td><?= $catNames[$product['sub_categoryId']] ?? '' ?></td>
-                                    <td><b>BDT</b> <?= $product['price'] ?></td>
+                                    <td><b>৳</b> <?= $product['price'] ?></td>
                                     <td><?= $product['stock'] ?></td>
                                     <td class="action-btn">
                                         <a class="btn btn-edit" href="./edit_product.php?id=<?= $product['id'] ?>">Edit</a>

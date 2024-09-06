@@ -96,7 +96,7 @@ if (isset($_GET['search'])) {
                                 <img src="./uploads/<?= $product['image'] ?>" alt="<?= substr($product['name'], 0, 30) ?>">
                                 <h4><?= showText($product['name']) ?></h4>
                             </a>
-                            <p class="price">BDT <?= $product['price'] ?></p>
+                            <p class="price">৳ <?= $product['price'] ?></p>
                             <div class="card-buttons">
                                 <a href="index.php?addToCart=<?= $product['id'] ?>" class="add-to-cart">Add to Cart</a>
                                 <a href="index.php?buyNow=<?= $product['id'] ?>" class="add-to-cart buy-now">Buy Now</a>

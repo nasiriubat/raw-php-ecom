@@ -51,15 +51,15 @@ include './partial/header.php';
                                 <tr>
                                     <td><?= $key + 1 ?></td>
                                     <td><?= showText($item->name,50) ?></td>
-                                    <td><?= $item->unit_price ?> BDT</td>
+                                    <td><?= $item->unit_price ?> ৳</td>
                                     <td><?= $item->quantity ?> pc</td>
-                                    <td><?= $item->total_price ?> BDT</td>
+                                    <td><?= $item->total_price ?> ৳</td>
                                 </tr>
                         <?php }
                         } ?>
                         <tr class="net-total">
                             <td colspan="3">Net Total</td>
-                            <td colspan="2"><?= $order['total'] ?> BDT</td>
+                            <td colspan="2"><?= $order['total'] ?> ৳</td>
                         </tr>
                     </tbody>
                 </table>
