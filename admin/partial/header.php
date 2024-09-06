@@ -40,6 +40,6 @@
                 <li><a href="categories.php">Categories</a></li>
                 <li><a href="sub_category.php">Sub Categories</a></li>
                 <li><a href="products.php">Products</a></li>
-                <li><a href="settings.php">Settings</a></li>
+                <!-- <li><a href="settings.php">Settings</a></li> -->
             </ul>
         </div>

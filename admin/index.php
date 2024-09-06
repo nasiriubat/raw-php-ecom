@@ -47,12 +47,12 @@ if (isset($_GET['rejectOrder'])) {
                 <h3>Completed Orders</h3>
             </div>
             <div class="item pending-orders">
-                <p><?= dashboardData($conn)['total_earnings'] ?> </p>
-                <h3>Total Earning (৳)</h3>
+                <p><?= dashboardData($conn)['total_earnings'] ?> ৳</p>
+                <h3>Total Earning</h3>
             </div>
             <div class="item total-customers">
-                <p><?= number_format(dashboardData($conn)['total_commission'],2) ?> </p>
-                <h3>Total Commission (৳)</h3>
+                <p><?= number_format(dashboardData($conn)['total_commission'],2) ?> ৳</p>
+                <h3>Total Commission</h3>
             </div>
         </div>
         <div class="boxes">

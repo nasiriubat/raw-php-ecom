@@ -92,7 +92,8 @@ if (isset($_GET['search'])) {
                 <?php if ($products) {
                     foreach ($products as $product) { ?>
                         <div class="product-card">
-                            <a href="productDetails.php?id=1">
+                            <!-- <a href="productDetails.php?id=1"> -->
+                            <a href="">
                                 <img src="./uploads/<?= $product['image'] ?>" alt="<?= substr($product['name'], 0, 30) ?>">
                                 <h4><?= showText($product['name']) ?></h4>
                             </a>
