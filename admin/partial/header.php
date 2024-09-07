@@ -1,3 +1,8 @@
+<?php
+include '../config/db_connect.php';
+include '../config/helper_function.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

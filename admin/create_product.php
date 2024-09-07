@@ -1,7 +1,7 @@
 <?php
-include '../config/db_connect.php';
-include '../config/helper_function.php';
 
+
+include './partial/header.php';$setting = getSetting($conn);
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>sessionStorage.setItem('showAlert', 'Insert Failed, please try again.');window.location.href='products.php';</script>";
     }
 }
-include './partial/header.php';
+
 
 ?>
 

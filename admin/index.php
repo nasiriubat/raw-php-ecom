@@ -1,7 +1,6 @@
 <?php
-include '../config/db_connect.php';
-include '../config/helper_function.php';
-include './partial/header.php';
+
+include './partial/header.php';$setting = getSetting($conn);
 
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
@@ -47,11 +46,11 @@ if (isset($_GET['rejectOrder'])) {
                 <h3>Completed Orders</h3>
             </div>
             <div class="item pending-orders">
-                <p><?= dashboardData($conn)['total_earnings'] ?> ৳</p>
+                <p><?= dashboardData($conn)['total_earnings'] ?> <?= $setting['currency_symbol'] ?></p>
                 <h3>Total Earning</h3>
             </div>
             <div class="item total-customers">
-                <p><?= number_format(dashboardData($conn)['total_commission'],2) ?> ৳</p>
+                <p><?= number_format(dashboardData($conn)['total_commission'],2) ?> <?= $setting['currency_symbol'] ?></p>
                 <h3>Total Commission</h3>
             </div>
         </div>
@@ -106,7 +105,7 @@ if (isset($_GET['rejectOrder'])) {
                                 <td><?= json_decode($order['user_details'])->name ?></td>
                                 <td><?= json_decode($order['user_details'])->address ?></td>
                                 <td><?= json_decode($order['user_details'])->phone ?></td>
-                                <td><?= $order['total'] ?> ৳</td>
+                                <td><?= $order['total'] ?> <?= $setting['currency_symbol'] ?></td>
                                 <td><?= showDate($order['date']) ?></td>
                                 <td><?= $order['status'] ?></td>
                                 <td class="action-btn">

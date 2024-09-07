@@ -1,7 +1,13 @@
 <?php
-include '../config/db_connect.php';
-include '../config/helper_function.php';
 
+include './partial/header.php';$setting = getSetting($conn);
+if (!isLoggedIn()) {
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
+}
+
+if (!isAdmin()) {
+    echo "<script>sessionStorage.setItem('showAlert', 'Not Authorized!');window.location.href='../index.php';</script>";
+}
 $customers = getAll($conn, 'user');
 if (isset($_GET['id'])) {
     $customer_id = intval($_GET['id']);
@@ -16,7 +22,6 @@ if (isset($_GET['id'])) {
         echo "<script>sessionStorage.setItem('showAlert', 'Failed to delete Customer. Please try again.');window.location.href='customer.php';</script>";
     }
 }
-include './partial/header.php';
 ?>
 <div class="content">
     <div class="top-bar">

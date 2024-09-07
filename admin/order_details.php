@@ -1,6 +1,5 @@
 <?php
-include '../config/db_connect.php';
-include '../config/helper_function.php';
+
 
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='index.php';</script>";
@@ -18,7 +17,7 @@ if (isset($_GET['id'])) {
     $orderDetails = json_decode($order['order_details']);
 }
 
-include './partial/header.php';
+include './partial/header.php';$setting = getSetting($conn);
 ?>
 
 <div class="content">
@@ -51,15 +50,15 @@ include './partial/header.php';
                                 <tr>
                                     <td><?= $key + 1 ?></td>
                                     <td><?= showText($item->name,50) ?></td>
-                                    <td><?= $item->unit_price ?> ৳</td>
+                                    <td><?= $item->unit_price ?> <?= $setting['currency_symbol'] ?></td>
                                     <td><?= $item->quantity ?> pc</td>
-                                    <td><?= $item->total_price ?> ৳</td>
+                                    <td><?= $item->total_price ?> <?= $setting['currency_symbol'] ?></td>
                                 </tr>
                         <?php }
                         } ?>
                         <tr class="net-total">
                             <td colspan="3">Net Total</td>
-                            <td colspan="2"><?= $order['total'] ?> ৳</td>
+                            <td colspan="2"><?= $order['total'] ?> <?= $setting['currency_symbol'] ?></td>
                         </tr>
                     </tbody>
                 </table>

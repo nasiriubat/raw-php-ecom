@@ -1,7 +1,6 @@
 <?php
-include '../config/db_connect.php';
-include '../config/helper_function.php';
-include './partial/header.php';
+
+include './partial/header.php';$setting = getSetting($conn);
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
@@ -47,7 +46,7 @@ $orders = getAllByID($conn, 'orders', 'rider_id', $user['id']);
                                 <td><?= $customerData->name ?> </td>
                                 <td><?= $customerData->phone ?> </td>
                                 <td><?= $customerData->address ?> </td>
-                                <td><?= $order['total'] ?> ৳</td>
+                                <td><?= $order['total'] ?> <?= $setting['currency_symbol'] ?></td>
                                 <td>
                                   Delivered
                                 </td>

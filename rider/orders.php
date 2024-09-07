@@ -1,7 +1,6 @@
 <?php
-include '../config/db_connect.php';
-include '../config/helper_function.php';
-include './partial/header.php';
+
+include './partial/header.php';$setting = getSetting($conn);
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
@@ -57,12 +56,12 @@ if (isset($_GET['cancelOrder'])) {
                                             if ($product->name == null) {
                                                 continue;
                                             } ?>
-                                            <li class="text-left"><?= $product->name ?> - <?= $product->unit_price ?> ৳/pc - Quantity : <?= $product->quantity ?>pc</li>
+                                            <li class="text-left"><?= $product->name ?> - <?= $product->unit_price ?> <?= $setting['currency_symbol'] ?>/pc - Quantity : <?= $product->quantity ?>pc</li>
                                     <?php }
                                     } ?>
                                 </ol>
                             </td>
-                            <td><?= $order['total'] ?> ৳</td>
+                            <td><?= $order['total'] ?> <?= $setting['currency_symbol'] ?></td>
                             <td><?= ucfirst($order['payment_method']) ?> </td>
                             <td><?= ucfirst($order['status']) ?> </td>
 
@@ -72,7 +71,7 @@ if (isset($_GET['cancelOrder'])) {
                                     <div class="text-center">
                                         <span class="btn btn-delete">Cancelled</span><br><br>
                                         <?php if ($order['payment_method'] != 'cash') { ?>
-                                            <span>Refunded <?= $order['total'] - $order['commission'] ?> ৳</span>
+                                            <span>Refunded <?= $order['total'] - $order['commission'] ?> <?= $setting['currency_symbol'] ?></span>
                                         <?php } ?>
                                     </div>
                                 <?php } else {

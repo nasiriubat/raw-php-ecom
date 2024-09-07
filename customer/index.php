@@ -1,7 +1,7 @@
 <?php
 
-include '../config/db_connect.php';
-include '../config/helper_function.php';
+
+include './partial/header.php';$setting = getSetting($conn);
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
@@ -37,7 +37,7 @@ include './partial/header.php' ?>
                             <tr>
                                 <td><?= $key+1 ?></td>
                                 <td><?= showDate($order['date']) ?></td>
-                                <td><?= $order['total'] ?> ৳</td>
+                                <td><?= $order['total'] ?> <?= $setting['currency_symbol'] ?></td>
                                 <td><span class="btn <?= $order['status'] == 'Accepted' ? 'btn-success' : ($order['status'] == 'Pending' ? 'btn-view' :'btn-delete' ) ?>"><?= ucfirst($order['status']) ?></span></td>
 
                             </tr>

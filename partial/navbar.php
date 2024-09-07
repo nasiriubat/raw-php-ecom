@@ -1,10 +1,15 @@
+<?php
+include './config/helper_function.php';
+include './config/db_connect.php';
+$setting = getSetting($conn);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eshop</title>
+    <title><?= $setting['site_name'] ?></title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -17,7 +22,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="navbar-logo">
-                <a href="index.php">Eshop</a>
+                <a href="index.php"><?= $setting['site_name'] ?></a>
             </div>
             <div class="search-bar">
                 <form action="index.php">
@@ -45,7 +50,7 @@
                                 <a href="./customer/profile.php">My Profile</a>
                                 <a href="./customer/orders.php">My Orders</a>
                             <?php } ?>
-                            <a ><?= $wallet_amount['amount'] ?> ৳</a>
+                            <a ><?= $wallet_amount['amount'] ?> <?= $setting['currency_symbol'] ?></a>
                             <a href="logout.php">Logout</a>
                         </div>
                     </div>

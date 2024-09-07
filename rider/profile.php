@@ -1,7 +1,6 @@
 <?php
-
-include '../config/db_connect.php';
-include '../config/helper_function.php';
+include './partial/header.php' ?>
+include './partial/header.php';$setting = getSetting($conn);
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
@@ -39,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>sessionStorage.setItem('showAlert', 'Update Failed, please try again.');window.location.href='profile.php';</script>";
     }
 }
-include './partial/header.php' ?>
+
 
 <div class="content  profile">
     <div class="top-bar">

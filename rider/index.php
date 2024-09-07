@@ -1,7 +1,7 @@
 <?php
 
-include '../config/db_connect.php';
-include '../config/helper_function.php';
+
+include './partial/header.php';$setting = getSetting($conn);
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
 }
@@ -39,11 +39,11 @@ include './partial/header.php' ?>
                 <h3>Completed Orders</h3>
             </div>
             <div class="item total-orders">
-                <p><?= riderInfo($conn)['earning'] ?> ৳</p>
+                <p><?= riderInfo($conn)['earning'] ?> <?= $setting['currency_symbol'] ?></p>
                 <h3>Total Earning</h3>
             </div>
             <div class="item total-customers">
-                <p><?= $wallet['amount'] ?? 0 ?> ৳</p>
+                <p><?= $wallet['amount'] ?? 0 ?> <?= $setting['currency_symbol'] ?></p>
                 <h3>Avalilable Balance</h3>
             </div>
         </div>
@@ -75,7 +75,7 @@ include './partial/header.php' ?>
                                     <td><?= $customerData->name ?> </td>
                                     <td><?= $customerData->phone ?> </td>
                                     <td><?= $customerData->address ?> </td>
-                                    <td><?= $order['total'] ?> ৳</td>
+                                    <td><?= $order['total'] ?> <?= $setting['currency_symbol'] ?></td>
                                     <td>
                                         <?php if ($order['status'] == 'Accepted') { ?>
                                             <a class="btn btn-create " href="index.php?readyToDeliver=<?= $order['id'] ?>">Start Delivery</a>

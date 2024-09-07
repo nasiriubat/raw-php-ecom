@@ -1,6 +1,5 @@
 <?php
-include './config/helper_function.php';
-include './config/db_connect.php';
+
 include './partial/navbar.php';
 
 if (!isLoggedIn()) {
@@ -57,7 +56,7 @@ $cartItems = showCart();
                     <select name="payment_method" id="payment_method" required>
                         <option value="cash">Cash On Delivery</option>
                         <option value="stripe">Card</option>
-                        <option id="wallet" data-wallet="<?= $wallet_amount['amount'] ?? 0 ?>" value="wallet">Wallet (<?= $wallet_amount['amount'] ??0 ?> ৳)</option>
+                        <option id="wallet" data-wallet="<?= $wallet_amount['amount'] ?? 0 ?>" value="wallet">Wallet (<?= $wallet_amount['amount'] ??0 ?> <?= $setting['currency_symbol'] ?>)</option>
                     </select>
                 </div>
                 <div class="form-group w100">
@@ -103,18 +102,18 @@ $cartItems = showCart();
                         </div>
                         <div class="total-unit-price">
                             <h4>Unit Total</h4>
-                            <p><span id="show-total-unit-price-<?= $item['id'] ?>"><?= $item['total_price'] ?></span> <b>৳</b></p>
+                            <p><span id="show-total-unit-price-<?= $item['id'] ?>"><?= $item['total_price'] ?></span> <b><?= $setting['currency_symbol'] ?></b></p>
                         </div>
                     </div>
             <?php }
             } ?>
             <div class="d-flex delivery-chrage">
                 <p>Delivery Charge : </p>
-                <p ><span id="delivery-charge"><?= deliverCharge() ?> </span>৳</p>
+                <p ><span id="delivery-charge"><?= deliverCharge() ?> </span><?= $setting['currency_symbol'] ?></p>
             </div>
             <div class="total-div d-flex">
                 <h2>Total Price</h2>
-                <p> <span id="show-total-price" ><?= $cartItems['total_price'] ?></span> <b>৳</b></p>
+                <p> <span id="show-total-price" ><?= $cartItems['total_price'] ?></span> <b><?= $setting['currency_symbol'] ?></b></p>
             </div>
         <?php } else { ?>
             <p class="no-item-added">No Items added</p>
