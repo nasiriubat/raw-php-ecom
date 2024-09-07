@@ -18,7 +18,7 @@ if (isset($_GET['cancelOrder'])) {
     if ($cancel['payment_method'] != 'cash') {
         $afterCommission = $cancel['total'] - (($cancel['total'] * 10) / 100);
         $commission = ($cancel['total'] * 10) / 100;
-        $balance = updateOrCreateWallet($conn,$afterCommission);
+        $balance = updateOrCreateWallet($conn, $afterCommission);
 
         $data = updateById($conn, 'orders', $cancel['id'], ['commission' => $commission]);
     }
@@ -37,9 +37,10 @@ if (isset($_GET['cancelOrder'])) {
                 <tr>
                     <th width="5%">Sl.</th>
                     <th width="15%">Date</th>
-                    <th width="35%">Products</th>
-                    <th width="15%">Total Price</th>
+                    <th width="30%">Products</th>
+                    <th width="10%">Total Price</th>
                     <th width="15%">Payment Method</th>
+                    <th width="10%">Status</th>
                     <th width="15%">Action</th>
                 </tr>
             </thead>
@@ -51,25 +52,27 @@ if (isset($_GET['cancelOrder'])) {
                             <td><?= showDate($order['date']) ?></td>
                             <td>
                                 <ol>
-                                <?php if ($order['order_details']) {
-                                    foreach (json_decode($order['order_details']) as $key => $product) {
-                                        if ($product->name == null) {
-                                            continue;
-                                        } ?>
-                                        <li class="text-left"><?= $product->name ?> - <?= $product->unit_price ?> ৳/pc - Quantity : <?= $product->quantity ?>pc</li>
-                                <?php }
-                                } ?>
+                                    <?php if ($order['order_details']) {
+                                        foreach (json_decode($order['order_details']) as $key => $product) {
+                                            if ($product->name == null) {
+                                                continue;
+                                            } ?>
+                                            <li class="text-left"><?= $product->name ?> - <?= $product->unit_price ?> ৳/pc - Quantity : <?= $product->quantity ?>pc</li>
+                                    <?php }
+                                    } ?>
                                 </ol>
                             </td>
                             <td><?= $order['total'] ?> ৳</td>
                             <td><?= ucfirst($order['payment_method']) ?> </td>
+                            <td><?= ucfirst($order['status']) ?> </td>
+
                             <td class="action-btn">
                                 <?php
                                 if ($order['status'] == 'Cancelled') { ?>
                                     <div class="text-center">
                                         <span class="btn btn-delete">Cancelled</span><br><br>
-                                        <?php if($order['payment_method'] != 'cash'){ ?>
-                                        <span>Refunded <?= $order['total'] - $order['commission'] ?> ৳</span>
+                                        <?php if ($order['payment_method'] != 'cash') { ?>
+                                            <span>Refunded <?= $order['total'] - $order['commission'] ?> ৳</span>
                                         <?php } ?>
                                     </div>
                                 <?php } else {
@@ -78,9 +81,11 @@ if (isset($_GET['cancelOrder'])) {
                                 <?php } ?>
                             </td>
                         </tr>
-                <?php }
-                }else{?>
-                     <tr><td colspan=6>No Data Found</td></tr>
+                    <?php }
+                } else { ?>
+                    <tr>
+                        <td colspan=6>No Data Found</td>
+                    </tr>
                 <?php } ?>
 
             </tbody>

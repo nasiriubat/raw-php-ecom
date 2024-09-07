@@ -41,9 +41,10 @@ if (isset($_GET['cancelOrder'])) {
                 <tr>
                     <th width="5%">Sl.</th>
                     <th width="15%">Date</th>
-                    <th width="35%">Products</th>
-                    <th width="15%">Total Price</th>
+                    <th width="30%">Products</th>
+                    <th width="10%">Total Price</th>
                     <th width="15%">Payment Method</th>
+                    <th width="10%">Status</th>
                     <th width="15%">Action</th>
                 </tr>
             </thead>
@@ -67,6 +68,7 @@ if (isset($_GET['cancelOrder'])) {
                             </td>
                             <td><?= $order['total'] ?> ৳</td>
                             <td><?= ucfirst($order['payment_method']) ?> </td>
+                            <td><?= ucfirst($order['status']) ?> </td>
                             <td class="action-btn">
                                 <?php
                                 if ($order['status'] == 'Cancelled') { ?>

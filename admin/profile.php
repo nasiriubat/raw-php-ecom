@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'phone'=>$_POST['phone'],
         'address'=>$_POST['address'],
         'image'=>$imagePath,
-        'password'=>md5($_POST['address']),
+        'password'=>md5($_POST['password']),
     ];
     $data = updateById($conn, 'user',$userData['id'],$newData);
     if ($data) {

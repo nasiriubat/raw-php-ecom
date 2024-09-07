@@ -684,4 +684,33 @@ function updateOrCreateWallet($conn,$amount)
         $create_wallet = createData($conn, 'wallet', ['user_id'=>$user['id'],'amount' => $amount]);
     }
 }
+function getSetting($conn) {
+    $sql = "SELECT `key`, `value` FROM `setting`";
+    $result = $conn->query($sql);
+
+    $settings = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $settings[$row['key']] = $row['value']; // Store key-value pair
+        }
+    }
+    return $settings;
+}
+function updateSetting($conn, $table, $updateData) {
+    foreach ($updateData as $key => $value) {
+        // Using "INSERT INTO ... ON DUPLICATE KEY UPDATE" to either insert or update
+        $sql = "INSERT INTO `$table` (`key`, `value`) VALUES (?, ?) 
+                ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $key, $value);
+        $result = $stmt->execute();
+
+        if (!$result) {
+            return false; // Return false if any update/insert fails
+        }
+    }
+    return true; // Return true if all inserts/updates are successful
+}
+
+
 

@@ -70,6 +70,7 @@ body {
 .cart-btn{
     margin-right: 15px;
     width: 100%;
+    font-size: 2rem;
 }
 .navbar-links a:hover {
     color: #007bff;
@@ -610,12 +611,20 @@ padding: 5px 10px;
     color: #333;
 }
 
+.cart-icon{
+    position: relative;
+    color: rgb(66, 64, 64);
+}
+
 .cart-count{
-    /* background-color: rgb(255, 255, 255);
+    /* background-color: #ffffff; */
     padding: 1px 5px;
-    border-radius: 50%; */
-    color: #000000;
+    border-radius: 50%;
+    color: #ffffff;
     display: inline !important;
+    font-size: 1rem !important;
+    position: absolute;
+    top: -10px;
 }
 
 /* stripe */
@@ -627,6 +636,9 @@ padding: 5px 10px;
 .dropdown {
     position: relative;
     display: inline-block;
+    background-color: none;
+    margin-left: 1rem;
+
 }
 
 .dropdown-content {
@@ -653,19 +665,33 @@ padding: 5px 10px;
 }
 
 .dropdown .toggle-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
+    background-color: none;
+    color: rgb(0, 0, 0);
+    padding: 8px 12px;
     border: none;
     cursor: pointer;
     font-size: 18px;
+    border-radius: 8px;
+    
 }
 
-.dropdown .toggle-btn:hover {
-    background-color: #45a049;
-}
+
+
 .delivery-chrage{
     font-weight: 700;
     font-size: 18px;
     margin: 0px 5px !important;
+}
+.role-display{
+    display: inline-block;
+    /* border: 1px solid gray; */
+    background-color: rgb(95, 95, 95);
+    padding: 5px 8px;
+    border-radius: 5px;
+    margin: 0 1rem;
+}
+.login-btn{
+    padding: 5px 10px;
+    margin: 0;
+    border-radius: 8px;
 }

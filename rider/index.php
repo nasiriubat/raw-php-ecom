@@ -27,7 +27,8 @@ $orders = getAll($conn, 'orders');
 include './partial/header.php' ?>
 <div class="content">
     <div class="top-bar">
-        <h2>Dashborad</h2>
+    <h2>Welcome to the Rider Dashboard</h2>
+
         <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
 
     </div>
