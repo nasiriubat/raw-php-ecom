@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
 
     </div>
-    <form class="custom-form" action="profile.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form class="custom-form myForm" action="profile.php" method="post" enctype="multipart/form-data" autocomplete="off">
         <div class="form-div">
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone" value="<?= $userData['phone'] ?>" required>
+                <input type="tel" id="phone" name="phone" value="<?= $userData['phone'] ?>" required>
             </div>
             <div class="form-group">
                 <label for="address">Address:</label>

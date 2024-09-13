@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
 
             </div>
-            <form class="custom-form" action="edit_category.php" method="post" enctype="multipart/form-data">
+            <form class="custom-form myForm" action="edit_category.php" method="post" enctype="multipart/form-data">
                 <div class="form-div">
                     <input type="hidden" name="id" value="<?= $category['id'] ?>">
                     <div class="form-group">

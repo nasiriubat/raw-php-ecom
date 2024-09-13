@@ -36,7 +36,7 @@ $cartItems = showCart();
 <!-- Main Content -->
 <div class="cart-container">
     <div class="cart-left">
-        <form class="custom-form" action="cart.php" method="post" enctype="multipart/form-data" id="payment-form">
+        <form class="custom-form myForm" action="cart.php" method="post" enctype="multipart/form-data" id="payment-form">
             <h3 class="">Delivery Information :</h3>
             <div class="form-div">
                 <div class="form-group w50">
@@ -49,7 +49,7 @@ $cartItems = showCart();
                 </div>
                 <div class="form-group w50">
                     <label for="phone">Phone: <small class="required">*</small></label>
-                    <input type="text" id="phone" name="phone" value="<?= $user['phone'] ?? '' ?>" required>
+                    <input type="tel" id="phone" name="phone" value="<?= $user['phone'] ?? '' ?>" required>
                 </div>
                 <div class="form-group w50">
                     <label for="payment_option">Payment Option: <small class="required">*</small></label>
@@ -129,6 +129,7 @@ $cartItems = showCart();
     </div>
 </footer>
 <script src="./assets/js/cart.js"></script>
+<script src="./assets/js/formValidation.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="./assets/js/stripe.js"></script>
 <script src="./assets/js/scripts.js"></script>

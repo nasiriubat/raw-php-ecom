@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
 
             </div>
-            <form class="custom-form" action="create_category.php" method="post" enctype="multipart/form-data">
+            <form class="custom-form myForm" action="create_category.php" method="post" enctype="multipart/form-data">
                 <div class="form-div">
                     <div class="form-group">
                         <label for="name">Name:</label>

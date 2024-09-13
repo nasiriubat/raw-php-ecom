@@ -24,7 +24,7 @@ if (isset($_GET['deliveryComplete'])) {
 }
 // $user = getCurrentUser();
 $orders = getAll($conn, 'orders');
-include './partial/header.php' ?>
+ ?>
 <div class="content">
     <div class="top-bar">
     <h2>Welcome to the Rider Dashboard</h2>
@@ -34,17 +34,13 @@ include './partial/header.php' ?>
     </div>
     <div class="dashboard">
         <div class="boxes">
-            <div class="item completed-orders">
+            <div class="item completed-orders" style="width: 48%;">
                 <p><?= riderInfo($conn)['order'] ?></p>
                 <h3>Completed Orders</h3>
             </div>
-            <div class="item total-orders">
+            <div class="item total-orders" style="width: 48%;">
                 <p><?= riderInfo($conn)['earning'] ?> <?= $setting['currency_symbol'] ?></p>
                 <h3>Total Earning</h3>
-            </div>
-            <div class="item total-customers">
-                <p><?= $wallet['amount'] ?? 0 ?> <?= $setting['currency_symbol'] ?></p>
-                <h3>Avalilable Balance</h3>
             </div>
         </div>
         <hr>

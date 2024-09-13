@@ -1,5 +1,5 @@
 <?php
-include './partial/header.php' ?>
+
 include './partial/header.php';$setting = getSetting($conn);
 if (!isLoggedIn()) {
     echo "<script>sessionStorage.setItem('showAlert', 'Not Authenticated!');window.location.href='../index.php';</script>";
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "<script>sessionStorage.setItem('showAlert', 'Update Failed, please try again.');window.location.href='profile.php';</script>";
     }
-}
+} ?>
 
 
 <div class="content  profile">
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
 
     </div>
-    <form class="custom-form" action="profile_update.php" method="post" enctype="multipart/form-data">
+    <form class="custom-form myForm" action="profile_update.php" method="post" enctype="multipart/form-data">
         <div class="form-div">
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="phone" required>
             </div>
             <div class="form-group">
                 <label for="address">Address:</label>

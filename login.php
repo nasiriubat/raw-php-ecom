@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-container">
         <h2>E-Shop</h2>
-        <form action="login.php" method="POST" autocomplete="off">
+        <form action="login.php" method="POST" autocomplete="off" class="myForm">
             <input type="text" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="submit" value="Login">
@@ -49,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="register.php">Sign Up</a>
         </div>
     </div>
+    <script src="./assets/js/formValidation.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const showAlert = sessionStorage.getItem('showAlert');

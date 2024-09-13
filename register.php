@@ -11,7 +11,7 @@
 <body>
     <div class="register-container">
         <h2>Register</h2>
-        <form action="register.php" method="POST">
+        <form action="register.php" method="POST" class="myForm">
             <input type="text" name="name" placeholder="Name" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="tel" name="phone" placeholder="Phone" required>
@@ -23,6 +23,8 @@
             <a href="login.php">Login</a>
         </div>
     </div>
+    <script src="./assets/js/formValidation.js"></script>
+
 </body>
 
 </html>

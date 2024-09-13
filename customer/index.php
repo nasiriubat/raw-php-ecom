@@ -11,7 +11,7 @@ if (!isCustomer()) {
 }
 $user = getCurrentUser();
 $orders = getAllByID($conn, 'orders', 'userId', $user['id']);
-include './partial/header.php' ?>
+ ?>
 <div class="content">
     <div class="top-bar">
     <h2>Welcome to the Customer Dashboard</h2>

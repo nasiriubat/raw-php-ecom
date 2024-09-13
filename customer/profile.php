@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>sessionStorage.setItem('showAlert', 'Update Failed, please try again.');window.location.href='profile.php';</script>";
     }
 }
-include './partial/header.php' ?>
+ ?>
 
 <div class="content  profile">
     <div class="top-bar">
@@ -47,7 +47,7 @@ include './partial/header.php' ?>
                         <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
 
     </div>
-    <form class="custom-form" action="profile_update.php" method="post" enctype="multipart/form-data">
+    <form class="custom-form myForm" action="profile_update.php" method="post" enctype="multipart/form-data">
         <div class="form-div">
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -59,7 +59,7 @@ include './partial/header.php' ?>
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="phone" required>
             </div>
             <div class="form-group">
                 <label for="address">Address:</label>

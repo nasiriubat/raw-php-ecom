@@ -33,12 +33,12 @@ $setting = getSetting($conn);
             <div class="navbar-links ">
 
                 <a class="cart-btn" href="cart.php"><i class="fa-solid fa-cart-shopping cart-icon"><sup class="cart-count"><?= getCartProductCount() ?></sup></i> </a>
-                <?php if (isLoggedIn()) { 
+                <?php if (isLoggedIn()) {
                     $user = getCurrentUser();
-                    $wallet_amount = getById($conn,'wallet',$user['id'],'user_id');
-                    
-                    ?>
-                    
+                    $wallet_amount = getById($conn, 'wallet', $user['id'], 'user_id');
+
+                ?>
+
                     <div class="dropdown">
                         <button class="toggle-btn" onclick="toggleDropdown()"><?= ucfirst(getCurrentUser()['role']) ?></button>
                         <div class="dropdown-content">
@@ -50,8 +50,8 @@ $setting = getSetting($conn);
                                 <a href="./customer/profile.php">My Profile</a>
                                 <a href="./customer/orders.php">My Orders</a>
                             <?php } ?>
-                            <a ><?= $wallet_amount['amount'] ?> <?= $setting['currency_symbol'] ?></a>
-                            <a href="logout.php">Logout</a>
+                            <a class="wallet-balance" href="#">Balance</a>
+                             <a href="logout.php">Logout</a>
                         </div>
                     </div>
                 <?php } else { ?>
@@ -60,3 +60,11 @@ $setting = getSetting($conn);
             </div>
         </div>
     </nav>
+    <!-- Modal Structure -->
+<div id="balanceModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Your Current Wallet Balance is :</p>
+        <p class="wall-balance"><?= $wallet_amount['amount'] ?> <?= $setting['currency_symbol'] ?></p>
+    </div>
+</div>
