@@ -12,6 +12,34 @@ document.addEventListener('DOMContentLoaded', function () {
         }).showToast();
         sessionStorage.removeItem('showAlert');
     }
+
+    document.getElementById('print').addEventListener('click', function() {
+        let table = document.querySelector('.custom-table');
+        
+        html2canvas(table).then(function(canvas) {
+            let imgData = canvas.toDataURL('image/png');
+            let pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+
+            // Get page title for the heading
+            let title = document.title;
+
+            // Set the font, add the title (heading) with padding
+            let padding = 10; // Define padding value (10mm)
+            pdf.setFontSize(20);
+            pdf.text(title, padding, padding);  // X = 10mm, Y = 10mm
+
+            // Calculate the image dimensions and adjust for padding
+            let pageWidth = pdf.internal.pageSize.getWidth() - 2 * padding; // Adjust width for padding
+            let imgWidth = pageWidth;
+            let imgHeight = canvas.height * imgWidth / canvas.width;
+
+            // Add the image of the table to the PDF, after the title with padding
+            pdf.addImage(imgData, 'PNG', padding, 20, imgWidth, imgHeight);  // X = padding, Y = 20mm
+            
+            // Save the generated PDF
+            pdf.save('table.pdf');
+        });
+    });
 });
 
 function validateForm() {
@@ -77,3 +105,7 @@ document.querySelector('.myForm').onsubmit = function (event) {
         this.submit();
     }
 };
+
+
+
+

@@ -82,7 +82,8 @@ body {
 }
 
 .button-area {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
     margin: 25px 0;
 }
 
@@ -386,4 +387,10 @@ body {
 }
 .text-left{
     text-align: left;
+}
+.print-btn {
+    background-color: #1494fd;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
 }

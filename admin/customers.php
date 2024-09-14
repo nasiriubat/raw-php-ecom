@@ -29,7 +29,6 @@ if (isset($_GET['id'])) {
         <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
     </div>
     <div class="main-content">
-
         <table class="custom-table margin-top-10">
             <thead>
                 <tr>
@@ -74,6 +73,7 @@ if (isset($_GET['id'])) {
 </div>
 <?php include './partial/footer.php' ?>
 <script src="./assets/js/scripts.js"></script>
+<script src="./assets/js/datatable.js"></script>
 </body>
 
 </html>
