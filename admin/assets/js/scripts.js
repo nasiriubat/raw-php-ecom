@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let pdf = new jspdf.jsPDF('p', 'mm', 'a4');
 
             // Get page title for the heading
-            let title = document.title;
+            let title = "Earning Report";
 
             // Set the font, add the title (heading) with padding
             let padding = 10; // Define padding value (10mm)
@@ -105,6 +105,13 @@ document.querySelector('.myForm').onsubmit = function (event) {
         this.submit();
     }
 };
+
+//hdgf
+const phoneInput = document.querySelector('input[type="tel"]');
+phoneInput.addEventListener('input', function () {
+    // Replace any non-numeric characters in the input with an empty string
+    this.value = this.value.replace(/[^0-9]/g, '');
+  });
 
 
 

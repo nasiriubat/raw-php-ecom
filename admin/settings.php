@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="site_phone">Phone:</label>
-                <input type="text" id="site_phone" name="site_phone" required value="<?= $setting['site_phone'] ?>">
+                <input type="tel" id="site_phone" name="site_phone" required value="<?= $setting['site_phone'] ?>">
             </div>
             <div class="form-group">
                 <label for="site_address">Address:</label>

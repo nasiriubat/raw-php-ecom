@@ -47,27 +47,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : 'javascript:history.go(-1)'; ?>" class="btn">Back</a>
 
     </div>
-    <form class="custom-form myForm" action="profile_update.php" method="post" enctype="multipart/form-data">
+    <form class="custom-form myForm" action="profile.php" method="post" enctype="multipart/form-data">
         <div class="form-div">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" required value="<?= $userData['name'] ?>">
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" required value="<?= $userData['email'] ?>">
             </div>
             <div class="form-group">
                 <label for="phone">Phone:</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="phone" required value="<?= $userData['phone'] ?>">
             </div>
             <div class="form-group">
                 <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required>
+                <input type="text" id="address" name="address" required value="<?= $userData['address'] ?>">
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password">
             </div>
             <div class="form-group">
                 <label for="image">Profile Image:</label>
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </div>
 </div>
-
+<script src="../admin/assets/js/scripts.js"></script>
 </body>
 
 </html>
